@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import { SearchBar } from './components/SearchBar';
+import FilteredResults from './components/FilteredResults'; // Import the FilteredResults component
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -48,23 +49,17 @@ function App() {
       <div className="search-bar-container">
         {/* Update onSearch to call handleSearch with the current searchTerm */}
         <SearchBar onSearch={() => handleSearch(searchTerm)} onSearchTermChange={handleSearchTermChange} />
-        {filteredResults.length > 0 && (
-          <div>
-            <p>{filteredResults.length} units found</p>
-            <p>Average Price: ${averagePrice.toFixed(2)}</p>
-            <select onChange={e => setSelectedStreet(e.target.value)} value={selectedStreet}>
-              <option value="">All Streets</option>
-              {streetNames.map((street, index) => (
-                <option key={index} value={street}>{street}</option>
-              ))}
-            </select>
-          </div>
-        )}
+        {/* Pass averagePrice and streetNames as props to FilteredResults */}
+        <FilteredResults
+          searchResults={filteredResults}
+          selectedStreet={selectedStreet}
+          setSelectedStreet={setSelectedStreet}
+          averagePrice={averagePrice}
+          streetNames={streetNames}
+        />
       </div>
     </div>
   );
 }
 
 export default App;
-
-
