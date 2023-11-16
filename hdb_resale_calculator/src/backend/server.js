@@ -8,14 +8,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Enable CORS for your frontend (replace the origin with your frontend URL)
-app.use(cors({ origin: 'http://localhost:3000' })); // Frontend URL
+// http://localhost:517
+app.use(cors({ origin: 'http://localhost:5173' })); // Frontend URL
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/hdb-resale-price', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect('mongodb://localhost:27017/hdb-resale-price');
+
 
 // Define a schema and model for your data
 const resaleSchema = new mongoose.Schema({

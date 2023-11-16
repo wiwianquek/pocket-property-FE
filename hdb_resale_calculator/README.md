@@ -10,3 +10,8 @@ Currently, two official plugins are available:
 1. Run npm run dev 
 2. npm install react-icons 
 3. npm install axios //promise-based HTTP client that you can use to make requests to your server from your React app
+4. npm install express
+5. npm install mongoose 
+6. npm install cors 
+
+To run and connect the server: node src/backend/server.js

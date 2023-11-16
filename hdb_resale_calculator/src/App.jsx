@@ -1,32 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import { SearchBar } from './components/SearchBar';
 
 function App() {
-  // State to hold search results
   const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStreet, setSelectedStreet] = useState('');
+  const [filteredResults, setFilteredResults] = useState([]); // Added filteredResults state
 
-  // Function to update the search results
-  const handleSearch = async (searchQuery) => {
-    // ...fetch data from the API and update state
+  // Refactor handleSearch to accept a search term parameter
+  const handleSearch = async (term) => {
+    if (term.trim()) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/resales`, {
+          params: { search: term }
+        });
+        setSearchResults(response.data);
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    } else {
+      setSearchResults([]); // Clear results if search is cleared
+    }
   };
+
+  // No changes needed for handleSearchTermChange
+  const handleSearchTermChange = (value) => {
+    setSearchTerm(value);
+  };
+
+  // Extract unique street names from search results
+  const streetNames = Array.from(new Set(searchResults.map(item => item.street_name)));
+
+  // Calculate average price for filteredResults
+  const averagePrice = filteredResults.reduce((sum, item) => sum + item.resale_price, 0) / filteredResults.length || 0;
+
+  // Use useEffect to filter results when selectedStreet or searchResults change
+  useEffect(() => {
+    // Filter results based on selectedStreet
+    const filtered = searchResults.filter(item => !selectedStreet || item.street_name === selectedStreet);
+    setFilteredResults(filtered);
+  }, [selectedStreet, searchResults]);
 
   return (
     <div className="App">
       <div className="search-bar-container">
-        {/* Pass handleSearch to the SearchBar component */}
-        <SearchBar onSearch={handleSearch} />
-        <div>
-          {/* Render the search results here */}
-          {searchResults.map((result, index) => (
-            <div key={index}>
-              {/* Render your result item */}
-            </div>
-          ))}
-        </div>
+        {/* Update onSearch to call handleSearch with the current searchTerm */}
+        <SearchBar onSearch={() => handleSearch(searchTerm)} onSearchTermChange={handleSearchTermChange} />
+        {filteredResults.length > 0 && (
+          <div>
+            <p>{filteredResults.length} units found</p>
+            <p>Average Price: ${averagePrice.toFixed(2)}</p>
+            <select onChange={e => setSelectedStreet(e.target.value)} value={selectedStreet}>
+              <option value="">All Streets</option>
+              {streetNames.map((street, index) => (
+                <option key={index} value={street}>{street}</option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
 export default App;
+
+
