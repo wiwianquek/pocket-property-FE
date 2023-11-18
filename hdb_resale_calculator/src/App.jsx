@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import { SearchBar } from './components/SearchBar';
-import FilteredResults from './components/FilteredResults'; // Import the FilteredResults component
+import FilteredResults from './components/FilteredResults';
+import History from './components/History'; // Assuming you have this new component
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStreet, setSelectedStreet] = useState('');
-  const [filteredResults, setFilteredResults] = useState([]); // Added filteredResults state
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [averagePrice, setAveragePrice] = useState(0);
+  const [searchHistory, setSearchHistory] = useState([]); 
 
-  // Refactor handleSearch to accept a search term parameter
+  // Format currency without decimal 
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'SGD',
+      maximumFractionDigits: 0,
+      currencyDisplay: 'symbol'
+    }).format(value);
+  };
+
+  // Search results from my backend api data
   const handleSearch = async (term) => {
     if (term.trim()) {
       try {
@@ -18,6 +32,20 @@ function App() {
           params: { search: term }
         });
         setSearchResults(response.data);
+        
+        // Calculate and format the average price here
+        const newAveragePrice = response.data.reduce((sum, item) => sum + item.resale_price, 0) / response.data.length || 0;
+        const formattedAveragePrice = formatCurrency(newAveragePrice);
+
+        // Create the record with the formatted average price
+        const record = {
+          "Search Term": term,
+          "Results Found": response.data.length.toString(),
+          "Average Price": formattedAveragePrice, // Use the formatted average price here
+          // Add other necessary fields
+        };
+        setSearchHistory(history => [...history, record]);
+        sendToAirtable(record); // Send the record to Airtable
       } catch (error) {
         console.error('Error fetching search results:', error);
       }
@@ -26,39 +54,65 @@ function App() {
     }
   };
 
-  // No changes needed for handleSearchTermChange
+  // To handle the searches on searchbar 
   const handleSearchTermChange = (value) => {
     setSearchTerm(value);
   };
 
-  // Extract unique street names from search results
+  // To send historical search record to AirTable
+  // This function is correctly placed inside handleSearch since it's related to the search logic
+  const sendToAirtable = async (record) => {
+    try {
+      const response = await axios.post(
+        'https://api.airtable.com/v0/appokzWANOONVHiia/SearchHistory',
+        { fields: record },
+        {
+          headers: {
+            'Authorization': `Bearer ${process.env.REACT_APP_APIKEYHDBRESALE}`, // Use an environment variable
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error saving to Airtable:', error);
+    }
+  };
+  
+  // Extract street_names from search results
   const streetNames = Array.from(new Set(searchResults.map(item => item.street_name)));
-
-  // Calculate average price for filteredResults
-  const averagePrice = filteredResults.reduce((sum, item) => sum + item.resale_price, 0) / filteredResults.length || 0;
 
   // Use useEffect to filter results when selectedStreet or searchResults change
   useEffect(() => {
     // Filter results based on selectedStreet
     const filtered = searchResults.filter(item => !selectedStreet || item.street_name === selectedStreet);
     setFilteredResults(filtered);
+
+    // Calculate and set average price based on the new filtered results
+    const newAveragePrice = filtered.reduce((sum, item) => sum + item.resale_price, 0) / filtered.length || 0;
+    setAveragePrice(newAveragePrice); // Update the averagePrice state
   }, [selectedStreet, searchResults]);
 
   return (
-    <div className="App">
-      <div className="search-bar-container">
-        {/* Update onSearch to call handleSearch with the current searchTerm */}
-        <SearchBar onSearch={() => handleSearch(searchTerm)} onSearchTermChange={handleSearchTermChange} />
-        {/* Pass averagePrice and streetNames as props to FilteredResults */}
-        <FilteredResults
-          searchResults={filteredResults}
-          selectedStreet={selectedStreet}
-          setSelectedStreet={setSelectedStreet}
-          averagePrice={averagePrice}
-          streetNames={streetNames}
-        />
+    <Router>
+      <div className="App">
+        <div className="search-bar-container">
+          <SearchBar onSearch={() => handleSearch(searchTerm)} onSearchTermChange={handleSearchTermChange} />
+          <Link to="/">Main</Link>
+          <Link to="/history">History</Link>
+        </div>
+        <Routes>
+          <Route path="/" element={<FilteredResults
+            searchResults={filteredResults}
+            selectedStreet={selectedStreet}
+            setSelectedStreet={setSelectedStreet}
+            averagePrice={averagePrice}
+            streetNames={streetNames}
+          />} />
+          <Route path="/history" element={<History history={searchHistory} />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 

@@ -12,11 +12,20 @@ function FilteredResults({ searchResults, selectedStreet, setSelectedStreet, ave
   }, [selectedStreet, searchResults]);
 
   return (
-    <div className="filtered-results"> {/* Apply styling using CSS class */}
+    <div className="filtered-results"> 
       {filteredResults.length > 0 && (
         <div>
-          <p>{filteredResults.length} units found</p>
-          <p>Average Price: ${averagePrice.toFixed(2)}</p>
+          {/* House icon before the number of units found */}
+          <p><span className="icon house-icon"></span>{filteredResults.length} units found</p>
+          
+          {/* Dollar icon before the average price */}
+          <p><span className="icon dollar-icon"></span>Average Price: {new Intl.NumberFormat('en-US', { 
+            style: 'currency', 
+            currency: 'SGD', 
+            maximumFractionDigits: 0, 
+            currencyDisplay: 'symbol' 
+          }).format(averagePrice)}</p>
+          
           <select onChange={e => setSelectedStreet(e.target.value)} value={selectedStreet}>
             <option value="">All Streets</option>
             {streetNames.map((street, index) => (

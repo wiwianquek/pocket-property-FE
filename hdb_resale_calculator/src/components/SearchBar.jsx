@@ -1,4 +1,3 @@
-// SearchBar.jsx
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import "./SearchBar.css";
@@ -27,5 +26,7 @@ export const SearchBar = ({ onSearch, onSearchTermChange }) => {
             />
             <button type="submit">Search</button>
         </form>
+        
     );
 };
+

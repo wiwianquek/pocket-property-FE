@@ -1,40 +1,42 @@
 .filtered-results {
-    background-color: #f5f5dc; /* Beige background */
-    padding: 30px;
-    width: 50%;
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333; /* Darker text color for contrast */
-  }
-  
-  .filtered-results p {
-    font-size: 1.5rem;
-    margin: 10px 0;
-  }
-  
-  .filtered-results select {
-    background-color: white;
-    border-radius: 5px;
-    height: 3rem;
-    padding: 0 20px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin-top: 20px;
-    border: 1px solid #ddd; /* Added border for definition */
-    cursor: pointer;
-  }
-  
-  .filtered-results select:hover {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
-  .filtered-results select:focus {
-    outline: none;
-    border: 1px solid #aaa; /* Darker border on focus for visibility */
-  }
-  
+  background-color: beige; /* Your chosen card color */
+  padding: 30px;
+  width: 50%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: darkslategrey;
+}
+
+.icon {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  margin-right: 0.5em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+.house-icon {
+  background-image: url('../assets/home.png'); /* Adjust the path to your icon */
+}
+
+.dollar-icon {
+  background-image: url('../assets/dollar-currency-symbol.png'); /* Adjust the path to your icon */
+}
+
+/* Add spacing between the elements */
+.filtered-results p {
+  font-size: 1.5rem;
+  margin-bottom: 40px; /* Space below each paragraph */
+}
+
+/* Add space below the select dropdown if you have one */
+.filtered-results select {
+  margin-bottom: 30px; /* Space below the dropdown */
+}

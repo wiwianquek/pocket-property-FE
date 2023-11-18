@@ -8,7 +8,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 1. Run npm run dev 
-2. npm install react-icons 
+2. npm install react-icons react-router-dom
 3. npm install axios //promise-based HTTP client that you can use to make requests to your server from your React app
 4. npm install express
 5. npm install mongoose 
