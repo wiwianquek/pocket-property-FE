@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import { SearchBar } from './components/SearchBar';
 import FilteredResults from './components/FilteredResults';
-import History from './components/History'; // Assuming you have this new component
+import History from './components/History'; 
+import MortgageCalculator from './components/MortgageCalculator';
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -58,26 +59,6 @@ function App() {
   const handleSearchTermChange = (value) => {
     setSearchTerm(value);
   };
-
-  // To send historical search record to AirTable
-  // This function is correctly placed inside handleSearch since it's related to the search logic
-  const sendToAirtable = async (record) => {
-    try {
-      const response = await axios.post(
-        'https://api.airtable.com/v0/appokzWANOONVHiia/SearchHistory',
-        { fields: record },
-        {
-          headers: {
-            'Authorization': `Bearer ${process.env.REACT_APP_APIKEYHDBRESALE}`, // Use an environment variable
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error saving to Airtable:', error);
-    }
-  };
   
   // Extract street_names from search results
   const streetNames = Array.from(new Set(searchResults.map(item => item.street_name)));
@@ -99,7 +80,8 @@ function App() {
         <div className="search-bar-container">
           <SearchBar onSearch={() => handleSearch(searchTerm)} onSearchTermChange={handleSearchTermChange} />
           <Link to="/">Main</Link>
-          <Link to="/history">History</Link>
+          <Link to="/mortgage-calculator">Mortgage Calculator</Link>
+          <Link to="/history">Search History</Link>
         </div>
         <Routes>
           <Route path="/" element={<FilteredResults
@@ -109,6 +91,7 @@ function App() {
             averagePrice={averagePrice}
             streetNames={streetNames}
           />} />
+          <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
           <Route path="/history" element={<History history={searchHistory} />} />
         </Routes>
       </div>
@@ -117,3 +100,5 @@ function App() {
 }
 
 export default App;
+
+

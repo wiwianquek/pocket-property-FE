@@ -13,5 +13,7 @@ Currently, two official plugins are available:
 4. npm install express
 5. npm install mongoose 
 6. npm install cors 
+7. npm install airtable
+
 
 To run and connect the server: node src/backend/server.js
