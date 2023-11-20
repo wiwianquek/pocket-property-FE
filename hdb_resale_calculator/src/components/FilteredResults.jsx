@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './FilteredResults.css'; 
+import { Box, Text, Select, Icon, VStack } from '@chakra-ui/react';
+import { FaHome, FaDollarSign } from 'react-icons/fa';
 
 function FilteredResults({ searchResults, selectedStreet, setSelectedStreet, averagePrice, streetNames }) {
   // Use useEffect to filter results when selectedStreet or searchResults change
@@ -12,29 +13,44 @@ function FilteredResults({ searchResults, selectedStreet, setSelectedStreet, ave
   }, [selectedStreet, searchResults]);
 
   return (
-    <div className="filtered-results"> 
+    <Box
+      bg="beige"
+      p={8}
+      w="50%"
+      mx="auto"
+      my={5}
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      borderRadius="md"
+      boxShadow="md"
+      color="darkslategrey"
+    >
       {filteredResults.length > 0 && (
-        <div>
-          {/* House icon before the number of units found */}
-          <p><span className="icon house-icon"></span>{filteredResults.length} units found</p>
+        <VStack spacing={8}>
+          <Text fontSize="xl">
+            <Icon as={FaHome} mr={2} />
+            <Text as="span" color="orangered">{filteredResults.length}</Text> units found
+          </Text>
           
-          {/* Dollar icon before the average price */}
-          <p><span className="icon dollar-icon"></span>Average Price: {new Intl.NumberFormat('en-US', { 
-            style: 'currency', 
-            currency: 'SGD', 
-            maximumFractionDigits: 0, 
-            currencyDisplay: 'symbol' 
-          }).format(averagePrice)}</p>
+          <Text fontSize="xl">
+            <Icon as={FaDollarSign} mr={2} />
+            Average Price: <Text as="span" color="orangered">{new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'SGD',
+              maximumFractionDigits: 0,
+              currencyDisplay: 'symbol'
+            }).format(averagePrice)}</Text>
+          </Text>
           
-          <select onChange={e => setSelectedStreet(e.target.value)} value={selectedStreet}>
-            <option value="">All Streets</option>
+          <Select onChange={e => setSelectedStreet(e.target.value)} value={selectedStreet} placeholder="All Streets">
             {streetNames.map((street, index) => (
               <option key={index} value={street}>{street}</option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </VStack>
       )}
-    </div>
+    </Box>
   );
 }
 
