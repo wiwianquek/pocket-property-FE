@@ -1,11 +1,12 @@
 import React from 'react';
 import SearchRecords from './SearchRecords';
+import { Box } from '@chakra-ui/react';
 
 function History({ history }) {
   return (
-    <div>
+    <Box>
       <SearchRecords history={history} />
-    </div>
+    </Box>
   );
 }
 
