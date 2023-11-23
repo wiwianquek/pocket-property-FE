@@ -11,6 +11,7 @@ import {
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FilteredResults from './components/FilteredResults';
 import History from './components/History';
+import History from './components/History';
 import MortgageCalculator from './components/MortgageCalculator';
 import HomePage from './components/Homepage';
 
@@ -19,6 +20,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStreet, setSelectedStreet] = useState('');
   const [averagePrice, setAveragePrice] = useState(0);
+  const [searchHistory, setSearchHistory] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
 
   //this function is responsible for making API call when search term is provided 
