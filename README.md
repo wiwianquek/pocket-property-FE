@@ -4,7 +4,8 @@ Pocket Property is an interactive web application designed to simplify the proce
 
 ## Screenshot(s)
 
-![Pocket Property Landing Page](<link-to-landing-page-screenshot>)
+![Pocket Property Landing Page](https://github.com/wiwianquek/hdb-resale-calculator/assets/136752154/70a4ef3a-b091-492e-9a08-4d45d40045ec)
+
 *Above is the main landing page of Pocket Property, showcasing the intuitive UI for a seamless user experience.*
 
 ## Technologies Used
