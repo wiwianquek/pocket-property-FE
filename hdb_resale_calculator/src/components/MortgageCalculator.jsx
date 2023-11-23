@@ -15,7 +15,6 @@ import StyledBox from '../styles/StyledBox';
 
 const MortgageCalculator = () => {
   // State variables for the mortgage calculator
-  // State variables for the mortgage calculator
   const [propertyValue, setPropertyValue] = useState(500000);
   const [tenure, setTenure] = useState(30);
   const [loanPercentage, setLoanPercentage] = useState(75);
