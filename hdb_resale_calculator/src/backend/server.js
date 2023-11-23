@@ -57,6 +57,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-// If you have other modules to export, use the export statement
-// export { Resale, resaleSchema };
 

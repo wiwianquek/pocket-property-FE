@@ -1,7 +1,6 @@
-// HomePage.jsx
 import React from 'react';
 import { Box, Flex, VStack, Text, Button } from '@chakra-ui/react';
-import background from '../assets/My-Chinatown-2.jpg'; // Make sure the path is correct
+import background from '../assets/My-Chinatown-2.jpg'; 
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
@@ -62,7 +61,7 @@ const HomePage = () => {
           textAlign="center"
           fontSize="xs"
           color="white"
-          p="2" // Padding for the text for better legibility
+          p="2" 
         >
           Image copyrighted from Street Art Singapore China Town The Curious Journal
         </Text>

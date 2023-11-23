@@ -13,7 +13,6 @@ import FilteredResults from './components/FilteredResults';
 import History from './components/History';
 import MortgageCalculator from './components/MortgageCalculator';
 import HomePage from './components/Homepage';
-import cityscape from './assets/cityscape.png';
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -22,6 +21,7 @@ function App() {
   const [averagePrice, setAveragePrice] = useState(0);
   const [searchHistory, setSearchHistory] = useState([]);
 
+  //this function is responsible for making API call when search term is provided 
   const handleSearch = async (term) => {
     if (term.trim()) {
       try {
@@ -33,8 +33,7 @@ function App() {
         // Reset selectedStreet for new searches
         setSelectedStreet('');
 
-        // Calculate and format the average price here
-        // Assuming you want the average price for all returned search results, not just a selected street
+        // Calculate and format the average price here for all the returned search results 
         const newAveragePrice = response.data.length
           ? response.data.reduce((sum, item) => sum + item.resale_price, 0) / response.data.length
           : 0;
@@ -47,7 +46,7 @@ function App() {
           "Average Price": formatCurrency(newAveragePrice),
         };
         setSearchHistory(history => [...history, record]);
-        // sendToAirtable(record); // Make sure this function is defined or remove this line
+        // sendToAirtable(record); 
       } catch (error) {
         console.error('Error fetching search results:', error);
       }
@@ -67,7 +66,14 @@ function App() {
     }).format(value);
   };
 
-  // To handle the searches on searchbar
+  // To handle the searches on searchbar and updates the 'searchTerm' state (see code in searchbar.jsx)
+  
+    // 1. The user types something into the input field in SearchBar.
+    // 2. The handleInputChange function inside SearchBar is triggered by the onChange event.
+    // 3. Inside handleInputChange, onSearchTermChange is called with the new input value.
+    // 4. Because onSearchTermChange was passed as a prop to SearchBar and it points to handleSearchTermChange in App, it effectively calls handleSearchTermChange in the App component.
+    // 5. handleSearchTermChange in App updates the searchTerm state with the new value from the input field.
+
   const handleSearchTermChange = (value) => {
     setSearchTerm(value);
   };
@@ -75,8 +81,10 @@ function App() {
   // Extract street_names from search results
   const streetNames = Array.from(new Set(searchResults.map(item => item.street_name)));
 
+  // To recalculate the averageprice based on the filtered street_name  whenever 'selectedStreet' or 'searchResults' changes
+  // Averageprice is pass back up into app.jsx from FilteredResults.jsx
   useEffect(() => {
-    // Recalculate the average price based on the selected street
+    // Calculate the average price based on the selected street
     const filteredResults = selectedStreet
       ? searchResults.filter(item => item.street_name === selectedStreet)
       : searchResults;
@@ -85,7 +93,7 @@ function App() {
     const newAveragePrice = filteredResults.length ? totalValue / filteredResults.length : 0;
     
     setAveragePrice(newAveragePrice);
-  }, [searchResults, selectedStreet]);
+  }, [searchResults, selectedStreet]); // Re-run this effect when searchResults or selectedStreet changes
   
   return (
     <ChakraProvider>
@@ -102,11 +110,11 @@ function App() {
               <ChakraLink as={Link} to="/hdb-resale-data" px={2} py={1}>
                 HDB Resale Data
               </ChakraLink>
+              <ChakraLink as={Link} to="/history" px={2} py={1}>
+                HDB Search History
+              </ChakraLink>
               <ChakraLink as={Link} to="/mortgage-calculator" px={2} py={1}>
                 Mortgage Calculator
-              </ChakraLink>
-              <ChakraLink as={Link} to="/history" px={2} py={1}>
-                Search History
               </ChakraLink>
             </HStack>
           </Flex>
@@ -121,12 +129,11 @@ function App() {
                   averagePrice={averagePrice}
                   streetNames={streetNames}
                   onSearch={handleSearch}
-                  onSearchTermChange={handleSearchTermChange}
-                  searchTerm={searchTerm}
-                />
+                  onSearchTermChange={setSearchTerm}
+               />
               } />
-              <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
               <Route path="/history" element={<History history={searchHistory} />} />
+              <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
             </Routes>
           </Flex>
         </VStack>
@@ -136,5 +143,8 @@ function App() {
 }
 
 export default App;
+
+
+
 
 

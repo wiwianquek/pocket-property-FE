@@ -1,23 +1,12 @@
 import React from 'react';
 import { Box, Grid, Text, VStack } from '@chakra-ui/react';
+import StyledBoxHistory from '../styles/StyledBoxHistory';
 
 function SearchRecords({ history }) {
   return (
     <VStack spacing={4} align="center">
-      {history.map((record, index) => (
-        <Box
-          key={index}
-          bg="white"
-          p={5}
-          m={2}
-          borderRadius="md"
-          boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
-          border="1px solid transparent"
-          borderTop="3px solid orangered"
-          w="full" // Adjust width as needed
-          _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }}
-          transition="transform 0.3s ease"
-        >
+      {history.map((record, index) => ( 
+        <StyledBoxHistory key={index} borderTopColor="orangered">
           <Grid templateColumns="repeat(3, 1fr)" gap={4}>
             <Box>
               <Text fontWeight="bold">Search Term:</Text>
@@ -32,10 +21,13 @@ function SearchRecords({ history }) {
               <Text color="gray.600">{record["Average Price"]}</Text>
             </Box>
           </Grid>
-        </Box>
+        </StyledBoxHistory>
       ))}
     </VStack>
   );
 }
 
 export default SearchRecords;
+
+
+
