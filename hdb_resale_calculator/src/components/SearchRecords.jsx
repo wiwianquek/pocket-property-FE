@@ -24,7 +24,6 @@ function SearchRecords({ history }) {
         </StyledBoxHistory>
       ))}
     </VStack>
-    </VStack>
   );
 }
 
