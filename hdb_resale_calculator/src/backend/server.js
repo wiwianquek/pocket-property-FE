@@ -7,8 +7,19 @@ const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGODB_URI; // The connection string should be stored in an environment variable
 
 // Enable CORS for your frontend
-app.use(cors({ origin: 'https://hdb-resale-calculator-qpyc-e5ssnasmg-vivians-projects-8085f5fc.vercel.app/' })); // Replace with the actual origin in production
-app.use(express.json());
+const allowedOrigins = [
+  'https://hdb-resale-calculator-qpyc-e5ssnasmg-vivians-projects-8085f5fc.vercel.app',
+  'http://localhost:5173', // Add other origins as needed
+];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}));
 
 // Create a new MongoClient
 const client = new MongoClient(mongoUri, {
@@ -67,3 +78,4 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
+
