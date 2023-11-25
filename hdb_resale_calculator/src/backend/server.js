@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Enable CORS for your frontend (replace the origin with your frontend URL)
-// http://localhost:517
+// http://localhost:5173
 app.use(cors({ origin: 'http://localhost:5173' })); // Frontend URL
 app.use(express.json());
 

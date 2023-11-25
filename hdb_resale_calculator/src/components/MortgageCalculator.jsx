@@ -70,10 +70,16 @@ const MortgageCalculator = () => {
      'DownPayment': Number(calculateDownPayment()),
      'Cash DownPayment': Number(calculateCashDownPayment())
    };
-   // Call the function from the hook with the prepared data
-   saveToAirtable({ fields: recordData });
- };
 
+    saveToAirtable({ fields: recordData })
+      .then(() => {
+        setIsSaveSuccessful(true);
+        setTimeout(() => setIsSaveSuccessful(false), 3000); // Auto-hide message after 3 seconds
+      })
+      .catch(() => {
+        setIsSaveSuccessful(false);
+      });
+};
 
   return (
     <Flex direction={{ base: "column", md: "row" }} py={5} px={2} align="flex-start">
