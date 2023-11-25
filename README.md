@@ -1,6 +1,6 @@
 # Pocket Property
 
-Pocket Property is an interactive web application designed to simplify the process of finding and calculating property-related metrics for HDB (Housing & Development Board) properties. Whether you're in the market to buy HDB or just looking to get average pricing metrics without going through the hassle of complex calculations, Pocket Property has you covered! 
+Tired of making your own manual excel calculation when preparing to buy a resale flat? Pocket Property is here for rescue! Pocket Property helps anybody simplify the process of finding and calculating property-related metrics for HDB (Housing & Development Board) properties. Whether you're in the market to buy HDB or just looking to get average pricing metrics without going through the hassle of complex calculations, Pocket Property has you covered! 
 
 ## Screenshot(s)
  ### Homepage
