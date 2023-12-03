@@ -9,7 +9,8 @@ import {
   Heading,
   Text,
   VStack,
-  Divider
+  Divider,
+  useToast
 } from '@chakra-ui/react';
 import StyledBox from '../styles/StyledBox'; 
 
@@ -57,6 +58,7 @@ const MortgageCalculator = () => {
 // Airtable API setup
 // Use the custom hook here
   const { isSaveSuccessful: isAirtableSaveSuccessful, saveToAirtable } = useAirtable(import.meta.env.VITE_AIRTABLE_API_KEY, 'appokzWANOONVHiia', 'calculator');
+  const toast = useToast();
 
  // Function to save the data and then calls the custom hook's save function
  const handleSaveToAirtable = () => {
@@ -72,14 +74,28 @@ const MortgageCalculator = () => {
    };
 
     saveToAirtable({ fields: recordData })
-      .then(() => {
-        setIsSaveSuccessful(true);
-        setTimeout(() => setIsSaveSuccessful(false), 3000); // Auto-hide message after 3 seconds
-      })
-      .catch(() => {
-        setIsSaveSuccessful(false);
+    .then(() => {
+      toast({
+        title: "Save Successful",
+        description: "Your mortgage details have been saved to Airtable.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
       });
-};
+      setIsSaveSuccessful(true);
+      setTimeout(() => setIsSaveSuccessful(false), 3000); // Auto-hide the state-based message after 3 seconds
+    })
+    .catch((error) => {
+      toast({
+        title: "Save Failed",
+        description: `Error: ${error.message}`, // Assuming error object has a message property
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      setIsSaveSuccessful(false);
+    });
+  };
 
   return (
     <Flex direction={{ base: "column", md: "row" }} py={5} px={2} align="flex-start">
@@ -155,6 +171,4 @@ const MortgageCalculator = () => {
 };
 
 export default MortgageCalculator;
-
-
 

@@ -20,6 +20,8 @@ function App() {
   const [selectedStreet, setSelectedStreet] = useState('');
   const [averagePrice, setAveragePrice] = useState(0);
   const [searchHistory, setSearchHistory] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   //this function is responsible for making API call when search term is provided 
   const handleSearch = async (term) => {
@@ -29,24 +31,32 @@ function App() {
           params: { search: term }
         });
         setSearchResults(response.data); // Update search results with API response
-
+  
         // Reset selectedStreet for new searches
         setSelectedStreet('');
-
+  
         // Calculate and format the average price here for all the returned search results 
         const newAveragePrice = response.data.length
           ? response.data.reduce((sum, item) => sum + item.resale_price, 0) / response.data.length
           : 0;
         setAveragePrice(newAveragePrice); // Update average price
+  
+        // Only create the search history record if there are results
+        if (response.data.length > 0) {
+          const record = {
+            "Search Term": term,
+            "Results Found": response.data.length.toString(),
+            "Average Price": formatCurrency(newAveragePrice),
+          };
+          setSearchHistory(history => [...history, record]);
+          setErrorMessage(''); // Clear any previous error messages
+        } else {
+          // Set an error message when no results are found
+          setErrorMessage(`There are no results for "${term}".`);
+          setAveragePrice(0); // Reset average price
+        
+        }
 
-        // Create the search history record
-        const record = {
-          "Search Term": term,
-          "Results Found": response.data.length.toString(),
-          "Average Price": formatCurrency(newAveragePrice),
-        };
-        setSearchHistory(history => [...history, record]);
-        // sendToAirtable(record); 
       } catch (error) {
         console.error('Error fetching search results:', error);
       }
@@ -55,7 +65,15 @@ function App() {
       setAveragePrice(0); // Reset average price when search is cleared
     }
   };
- 
+  
+
+  // Function to delete my searchrecords 
+  const handleDeleteRecord = (indexToDelete) => {
+    setSearchHistory((currentHistory) =>
+      currentHistory.filter((_, index) => index !== indexToDelete)
+    );
+  };
+
   // Format currency without decimal
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-US', {
@@ -95,6 +113,7 @@ function App() {
     setAveragePrice(newAveragePrice);
   }, [searchResults, selectedStreet]); // Re-run this effect when searchResults or selectedStreet changes
   
+  
   return (
     <ChakraProvider>
       <Router>
@@ -130,9 +149,10 @@ function App() {
                   streetNames={streetNames}
                   onSearch={handleSearch}
                   onSearchTermChange={setSearchTerm}
+                  errorMessage={errorMessage}
                />
               } />
-              <Route path="/history" element={<History history={searchHistory} />} />
+              <Route path="/history" element={<History history={searchHistory} onDeleteRecord={handleDeleteRecord} />} />
               <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
             </Routes>
           </Flex>
