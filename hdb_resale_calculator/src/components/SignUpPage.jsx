@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, Input, Button, FormControl, FormLabel, Heading } from '@chakra-ui/react';
+import { Box, Flex, Input, Button, FormControl, FormLabel, Heading, useToast } from '@chakra-ui/react';
 import pocketPropertyImage from '../assets/pocketproperty.png'; // Make sure this path is correct
 import { signUp } from '../service/users'; // Make sure to import the signUp function
 import { hashData } from '../util/security'; // Importing hashData function from your utilities
@@ -14,10 +14,11 @@ export default function SignUpPage() {
     // No need to include salt and iterations in state if they're generated during form submission
   });
 
+  const toast = useToast(); // Initialize the toast function
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Hash the password here before sending to the backend
@@ -35,13 +36,24 @@ export default function SignUpPage() {
     };
 
     try {
-      // Call the signUp service function and pass the user object
       await signUp(userToCreate);
-      // Redirect or handle the success case here
-      console.log('User signed up successfully!');
+      toast({
+        title: 'Account created.',
+        description: "Welcome to Pocket Property!",
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      // Further actions on success, like redirecting to a login page
     } catch (error) {
-      // Handle the error case here
-      console.error('Error signing up:', error);
+      toast({
+        title: 'Error.',
+        description: 'Unable to create account. Please try again.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      // Further error handling
     }
   };
 
