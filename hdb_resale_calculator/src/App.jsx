@@ -8,11 +8,50 @@ import {
   Heading,
   Link as ChakraLink,
 } from '@chakra-ui/react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import FilteredResults from './components/FilteredResults';
 import History from './components/History';
 import MortgageCalculator from './components/MortgageCalculator';
 import HomePage from './components/Homepage';
+import SignUpPage from './components/SignUpPage';
+
+function Layout() {
+  const location = useLocation();
+
+  return (
+    <>
+      {location.pathname !== '/signup' && (
+        <Flex as="header" bg="yellow.100" w="full" justify="space-between" p={4}>
+          <Heading as="h1" size="lg" ml={8}>
+            Pocket Property
+          </Heading>
+          <HStack as="nav" spacing={4}>
+            <ChakraLink as={Link} to="/" px={2} py={1}>
+              Home
+            </ChakraLink>
+            <ChakraLink as={Link} to="/hdb-resale-data" px={2} py={1}>
+              HDB Resale Data
+            </ChakraLink>
+            <ChakraLink as={Link} to="/history" px={2} py={1}>
+              HDB Search History
+            </ChakraLink>
+            <ChakraLink as={Link} to="/mortgage-calculator" px={2} py={1}>
+              Mortgage Calculator
+            </ChakraLink>
+          </HStack>
+        </Flex>
+      )}
+      <Routes>
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/hdb-resale-data" element={<FilteredResults />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+        {/* ... other routes */}
+      </Routes>
+    </>
+  );
+}
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -117,54 +156,11 @@ function App() {
   return (
     <ChakraProvider>
       <Router>
-        <VStack>
-          <Flex as="header" bg="yellow.100" w="full" justify="space-between" p={4}>
-            <Heading as="h1" size="lg" ml={8}>
-              Pocket Property
-            </Heading>
-            <HStack as="nav" spacing={4}>
-              <ChakraLink as={Link} to="/" px={2} py={1}>
-                Home
-              </ChakraLink>
-              <ChakraLink as={Link} to="/hdb-resale-data" px={2} py={1}>
-                HDB Resale Data
-              </ChakraLink>
-              <ChakraLink as={Link} to="/history" px={2} py={1}>
-                HDB Search History
-              </ChakraLink>
-              <ChakraLink as={Link} to="/mortgage-calculator" px={2} py={1}>
-                Mortgage Calculator
-              </ChakraLink>
-            </HStack>
-          </Flex>
-          <Flex direction="column" align="center" w="full">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/hdb-resale-data" element={
-                <FilteredResults
-                  searchResults={searchResults}
-                  selectedStreet={selectedStreet}
-                  setSelectedStreet={setSelectedStreet}
-                  averagePrice={averagePrice}
-                  streetNames={streetNames}
-                  onSearch={handleSearch}
-                  onSearchTermChange={setSearchTerm}
-                  errorMessage={errorMessage}
-               />
-              } />
-              <Route path="/history" element={<History history={searchHistory} onDeleteRecord={handleDeleteRecord} />} />
-              <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
-            </Routes>
-          </Flex>
-        </VStack>
+        <Layout />
       </Router>
     </ChakraProvider>
   );
 }
 
 export default App;
-
-
-
-
 
