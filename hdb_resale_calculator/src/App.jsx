@@ -62,11 +62,13 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
 
 
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   //this function is responsible for making API call when search term is provided 
   const handleSearch = async (term) => {
     if (term.trim()) {
       try {
-        const response = await axios.get(`http://localhost:3000/api/resales`, {
+        const response = await axios.get(`${backendUrl}/api/resales`, {
           params: { search: term }
         });
         setSearchResults(response.data); // Update search results with API response

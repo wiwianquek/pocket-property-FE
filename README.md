@@ -1,23 +1,16 @@
 # Pocket Property
 
-Pocket Property is an interactive web application designed to simplify the process of finding and calculating property-related metrics for HDB (Housing & Development Board) properties. Whether you're in the market to buy HDB or just looking to get average pricing metrics without going through the hassle of complex calculations, Pocket Property has you covered! 
+Tired of making your own manual excel calculation when preparing to buy a resale flat? Pocket Property is here for rescue! Pocket Property helps anybody simplify the process of finding and calculating property-related metrics for HDB (Housing & Development Board) properties. Whether you're in the market to buy HDB or just looking to get average pricing metrics without going through the hassle of complex calculations, Pocket Property has you covered! 
 
 ## Screenshot(s)
  ### Homepage
 ![Pocket Property Landing Page](https://github.com/wiwianquek/hdb-resale-calculator/assets/136752154/70a4ef3a-b091-492e-9a08-4d45d40045ec)
 
  ### HDB Resale Data
-
 ![image](https://github.com/wiwianquek/hdb-resale-calculator/assets/136752154/39d9ccce-28e5-412a-878b-14b02ccee0b3)
 
  ### HDB Search History
 ![image](https://github.com/wiwianquek/hdb-resale-calculator/assets/136752154/2ede5a1b-9503-4119-b74f-8d84f930119c)
-
-![image](https://github.com/wiwianquek/hdb-resale-calculator/assets/136752154/c1e9aa71-f716-4f42-a7fc-60593dbada4a)
-
- ### HDB Search History
-![image](https://github.com/wiwianquek/hdb-resale-calculator/assets/136752154/d629b6f8-062f-4657-8168-e901a83ee2f7)
-
 
  ### Mortgage Calculator
 ![image](https://github.com/wiwianquek/hdb-resale-calculator/assets/136752154/0f927da3-217d-4b4f-a51c-e7ff64f93578)
