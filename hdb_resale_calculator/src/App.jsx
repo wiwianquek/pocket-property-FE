@@ -9,40 +9,42 @@ import {
   Link as ChakraLink,
 } from '@chakra-ui/react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import LoginPage from './components/LoginPage'; 
+import SignUpPage from './components/SignUpPage';
+import HomePage from './components/Homepage';
 import FilteredResults from './components/FilteredResults';
 import History from './components/History';
 import MortgageCalculator from './components/MortgageCalculator';
-import HomePage from './components/Homepage';
-import SignUpPage from './components/SignUpPage';
 
 function Layout() {
   const location = useLocation();
 
   return (
     <>
-      {location.pathname !== '/signup' && (
+     {location.pathname !== '/signup' && location.pathname !== '/login' && (
         <Flex as="header" bg="yellow.100" w="full" justify="space-between" p={4}>
           <Heading as="h1" size="lg" ml={8}>
             Pocket Property
           </Heading>
           <HStack as="nav" spacing={4}>
             <ChakraLink as={Link} to="/" px={2} py={1}>
-              Home
-            </ChakraLink>
-            <ChakraLink as={Link} to="/hdb-resale-data" px={2} py={1}>
-              HDB Resale Data
-            </ChakraLink>
-            <ChakraLink as={Link} to="/history" px={2} py={1}>
-              HDB Search History
-            </ChakraLink>
-            <ChakraLink as={Link} to="/mortgage-calculator" px={2} py={1}>
-              Mortgage Calculator
-            </ChakraLink>
+                Home
+              </ChakraLink>
+              <ChakraLink as={Link} to="/hdb-resale-data" px={2} py={1}>
+                HDB Resale Data
+              </ChakraLink>
+              <ChakraLink as={Link} to="/history" px={2} py={1}>
+                HDB Search History
+              </ChakraLink>
+              <ChakraLink as={Link} to="/mortgage-calculator" px={2} py={1}>
+                Mortgage Calculator
+              </ChakraLink>
           </HStack>
         </Flex>
       )}
       <Routes>
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/hdb-resale-data" element={<FilteredResults />} />
         <Route path="/history" element={<History />} />
@@ -163,4 +165,5 @@ function App() {
 }
 
 export default App;
+
 
