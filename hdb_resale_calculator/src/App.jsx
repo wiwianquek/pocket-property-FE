@@ -15,6 +15,7 @@ import HomePage from './components/Homepage';
 import FilteredResults from './components/FilteredResults';
 import History from './components/History';
 import MortgageCalculator from './components/MortgageCalculator';
+import Dashboard from './components/Dashboard';
 
 function Layout() {
   const location = useLocation();
@@ -48,6 +49,7 @@ function Layout() {
         <Route path="/" element={<HomePage />} />
         <Route path="/hdb-resale-data" element={<FilteredResults />} />
         <Route path="/history" element={<History />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
         {/* ... other routes */}
       </Routes>

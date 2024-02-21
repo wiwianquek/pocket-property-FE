@@ -3,6 +3,7 @@ import { Box, Flex, Input, Button, FormControl, FormLabel, Heading, useToast } f
 import pocketPropertyImage from '../assets/pocketproperty.png'; // Make sure this path is correct
 import { signUp } from '../service/users'; // Make sure to import the signUp function
 import { hashData } from '../util/security'; // Importing hashData function from your utilities
+import { Link } from 'react-router-dom';
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -70,7 +71,7 @@ export default function SignUpPage() {
       pr={{ base: 4, md: 8, lg: 12 }} // Add padding to the right to not stick to the edge
     >
         <Box
-          p={8}
+          p={3}
           borderRadius="md"
           boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
           border="1px solid transparent"
@@ -150,6 +151,15 @@ export default function SignUpPage() {
               Sign Up
             </Button>
           </form>
+          <Button
+            as={Link} // This makes the button act as a router link
+            to="/login" // Path to the signup page
+            colorScheme="blue"
+            variant="link" // Make it look like a link
+            mt="4"
+            >
+            Have an account? Login here.
+            </Button>
         </Box>
     </Flex>
   );
