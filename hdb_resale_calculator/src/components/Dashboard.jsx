@@ -27,16 +27,16 @@ function Dashboard() {
   ]);
   const [notes, setNotes] = useState('');
 
-  // ... handle note change and save
-  const handleNoteChange = (event) => {
-    setNotes(event.target.value);
-  };
+  // // ... handle note change and save
+  // const handleNoteChange = (event) => {
+  //   setNotes(event.target.value);
+  // };
 
-  const handleSaveNote = () => {
-    // Save the note to MongoDB
-  };
+  // const handleSaveNote = () => {
+  //   // Save the note to MongoDB
+  // };
 
-  // ... rest of your component logic
+  // // ... rest of your component logic
 
   return (
     <Box p={5}>

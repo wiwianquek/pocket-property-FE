@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getToken } from '../util/security';
 import {
   Box,
   Button,
@@ -20,56 +21,143 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 
+// Import API functions
+import * as notesAPI from '../api/notes'; // Assuming this file has the correct API endpoint calls
+import * as cardAPI from '../api/card'; // This should contain functions to interact with card data
+
 const Notes = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [notes, setNotes] = useState([]);
-  const [currentNote, setCurrentNote] = useState({ id: null, title: '', content: '' });
+  const [currentNote, setCurrentNote] = useState({ _id: null, title: '', content: '', card_id: null });
   const [isEditing, setIsEditing] = useState(false);
+  const [currentCardId, setCurrentCardId] = useState(null); // State to track the current card ID
 
-  // Simulate fetching notes from a database
+  // Notes component
   useEffect(() => {
     const fetchNotes = async () => {
-      // Replace this with your actual API call
-      const fetchedNotes = [
-        { id: 1, title: 'First Note', content: 'This is the first note' },
-        { id: 2, title: 'Second Note', content: 'This is the second note' },
-        // ...more notes
-      ];
-      setNotes(fetchedNotes);
+      try {
+        const fetchedNotes = await notesAPI.getNotesEntryByUserId(); // No need to pass the token
+        setNotes(fetchedNotes);
+      } catch (error) {
+        console.error("Failed to fetch notes:", error);
+      }
     };
-
+  
     fetchNotes();
   }, []);
+  
+  // // Fetch notes for a specific card
+  // useEffect(() => {
+  //   const fetchCardWithNotes = async () => {
+  //     try {
+  //       const cardWithNotes = await cardAPI.getCardWithNotes(currentCardId);
+  //       console.log('Fetched card with notes:', cardWithNotes);
+  //       setNotes(cardWithNotes.notesentry_ids); // Adjust according to the actual response structure
+  //     } catch (error) {
+  //       console.error("Failed to fetch card with notes:", error);
+  //     }
+  //   };
+  
+  //   if (currentCardId) {
+  //     fetchCardWithNotes();
+  //   }
+  // }, [currentCardId]);
 
+  // Open the modal to add a new note
   const openModalForNewNote = () => {
-    setCurrentNote({ id: null, title: '', content: '' });
+    setCurrentNote({ _id: null, title: '', content: '', card_id: currentCardId });
     setIsEditing(false);
     onOpen();
   };
 
+  // Open the modal to edit an existing note
   const openModalToEditNote = (note) => {
-    setCurrentNote(note);
+    setCurrentNote({
+      _id: note._id,
+      title: note.entry_title, // Prefill the title
+      content: note.entry_text, // Prefill the content
+      card_id: note.card_id,
+    });
     setIsEditing(true);
     onOpen();
   };
 
+  // Handle input changes in the modal
   const handleNoteChange = (e) => {
     const { name, value } = e.target;
     setCurrentNote({ ...currentNote, [name]: value });
   };
 
-  const handleSaveNote = () => {
+  // handle saving notes
+  const handleSaveNote = async () => {
+    const token = getToken();
+    if (!token) {
+      console.error("No token found, user might not be logged in");
+      // Handle the lack of token here, maybe redirect to login page or show an error message.
+      return;
+    }
     if (isEditing) {
-      setNotes(notes.map((note) => (note.id === currentNote.id ? currentNote : note)));
+      try {
+        const updatedNote = await notesAPI.updateNotesEntry(currentNote._id, {
+          entry_title: currentNote.title,
+          entry_text: currentNote.content
+        });
+        setNotes(notes.map((note) => (note._id === currentNote._id ? updatedNote : note)));
+        onClose();
+      } catch (error) {
+        // If an error occurs, log it and display a message to the user
+        console.error("An error occurred while saving the note:", error);
+        alert("Failed to save the note. Please try again.");
+      }
     } else {
-      setNotes([...notes, { ...currentNote, id: Date.now() }]); // Assign a unique id for new note
+      try {
+        const token = getToken(); // Get the latest token
+        const newNote = await notesAPI.createNotesEntry({
+            entry_title: currentNote.title,
+            entry_text: currentNote.content,
+            card_id: currentCardId,
+        }, token); // Pass the token to your API call function
+        setNotes([...notes, newNote]);
+      } catch (error) {
+          console.error("Failed to create note:", error);
+      }
     }
     onClose();
   };
+  
+  // Modify the handleDeleteNote function to call handleDeleteCard if it's the last note
+  const handleDeleteNote = async (noteId) => {
+    const token = getToken();
+    if (!token) {
+      // handle error
+      return;
+    }
+    try {
+      await notesAPI.deleteNotesEntry(noteId, token); // Pass the token here
+      setNotes(notes.filter((note) => note._id !== noteId)); // Update the notes state
+  
+      // Check if this was the last note in the card and delete the card as well if it was
+      if (notes.filter((note) => note.card_id === cardId).length === 1) {
+        await cardAPI.deleteCard(cardId);
+        // Update any state that is tracking cards here as well
+        // For example, if you have a state variable for cards, you would update it like this:
+        // setCards(cards.filter((card) => card._id !== cardId));
+      }
+    } catch (error) {
+      console.error("Failed to delete note:", error);
+    }
+  };
 
-  const handleDeleteNote = () => {
-    setNotes(notes.filter((note) => note.id !== currentNote.id));
-    onClose();
+  // Add a function to delete the card
+  const handleDeleteCard = async (cardId) => {
+    try {
+      await cardAPI.deleteCard(cardId);
+      // Update state to reflect that the card and notes are deleted
+      setNotes(notes.filter((note) => note.card_id !== cardId));
+      setCurrentCardId(null); // Reset the current card ID
+    } catch (error) {
+      console.error("Failed to delete card:", error);
+    }
   };
 
   return (
@@ -80,23 +168,29 @@ const Notes = () => {
       <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={4} mt={4}>
         {notes.map((note) => (
           <Box
-          mt={4}
-          maxH="300px" // Maximum height of the container
-          overflowY="auto" // Only show the scrollbar when content overflows
-          key={note.id}
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          p={4}
-          transition="background 0.3s, box-shadow 0.3s" // Smooth transition for background color and shadow
-          _hover={{ bg: 'gray.100', boxShadow: 'md' }} // Hover styles
-        >
-            <Heading size="md" mb={2}>{note.title}</Heading>
-            <Text mb={2}>{note.content}</Text>
+            mt={4}
+            maxH="350px" // Increased maximum height
+            overflowY="auto"
+            key={note._id}
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            p={6} // Increased padding
+            transition="background 0.3s, box-shadow 0.3s"
+            _hover={{ bg: 'gray.100', boxShadow: 'md' }}
+          >
+            <Heading size="md" mb={4}>{note.entry_title}</Heading> {/* Increased margin-bottom */}
+            <Text mb={4}>{note.entry_text}</Text> {/* Increased margin-bottom */}
             <IconButton
               aria-label="Edit note"
               icon={<EditIcon />}
               onClick={() => openModalToEditNote(note)}
+              mr={2} // Added margin-right for spacing
+            />
+            <IconButton
+              aria-label="Delete note"
+              icon={<DeleteIcon />}
+              onClick={() => handleDeleteNote(note._id, note.card_id)}
             />
           </Box>
         ))}
@@ -119,11 +213,6 @@ const Notes = () => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            {isEditing && (
-              <Button colorScheme="red" onClick={handleDeleteNote} mr={3}>
-                <DeleteIcon mr={2} />
-              </Button>
-            )}
             <Button colorScheme="blue" onClick={handleSaveNote} mr={3}>
               Save
             </Button>
@@ -136,6 +225,7 @@ const Notes = () => {
 };
 
 export default Notes;
+
 
 
 

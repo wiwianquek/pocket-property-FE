@@ -19,25 +19,26 @@ const MortgageCalculationsTable = () => {
       downPayment: '$75,000',
     },
     {
-      id: 1,
+      id: 2, // Change the id to be unique
       monthlyRepayment: '$1,501.27',
       loanAmount: '$375,000',
       downPayment: '$75,000',
     },
     {
-      id: 1,
+      id: 3, // Change the id to be unique
       monthlyRepayment: '$1,501.27',
       loanAmount: '$375,000',
       downPayment: '$75,000',
     },
     {
-      id: 1,
+      id: 4, // Change the id to be unique
       monthlyRepayment: '$1,501.27',
       loanAmount: '$375,000',
       downPayment: '$75,000',
     },
-    // ... add more dummy data as needed
+    // ... make sure to use a unique id for each item
   ];
+  
 
   return (
     <TableContainer>
