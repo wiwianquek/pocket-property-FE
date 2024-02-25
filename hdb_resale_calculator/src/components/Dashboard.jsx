@@ -7,7 +7,7 @@ import {
   Textarea,
   Button,
 } from '@chakra-ui/react';
-import SearchRecords from './searchrecords'; // Your existing component
+import SearchRecords from '../oldcomponents/SearchRecords'; // Your existing component
 import MortgageCalculationsTable from './MortgageCalculationsTable'; // The new component we created above
 import Notes from './Notes';
 

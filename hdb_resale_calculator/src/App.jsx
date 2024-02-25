@@ -11,9 +11,9 @@ import {
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import LoginPage from './components/LoginPage'; 
 import SignUpPage from './components/SignUpPage';
-import HomePage from './components/Homepage';
-import FilteredResults from './components/FilteredResults';
-import History from './components/History';
+import HomePage from './oldcomponents/Homepage';
+import FilteredResults from './oldcomponents/FilteredResults';
+import History from './oldcomponents/History';
 import MortgageCalculator from './components/MortgageCalculator';
 import Dashboard from './components/Dashboard';
 
@@ -46,10 +46,9 @@ function Layout() {
       <Routes>
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/hdb-resale-data" element={<FilteredResults />} />
         <Route path="/history" element={<History />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
         {/* ... other routes */}
       </Routes>
