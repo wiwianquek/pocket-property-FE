@@ -7,36 +7,12 @@ import {
   Textarea,
   Button,
 } from '@chakra-ui/react';
-import SearchRecords from '../oldcomponents/SearchRecords'; // Your existing component
 import MortgageCalculationsTable from './MortgageCalculationsTable'; // The new component we created above
 import Notes from './Notes';
+import ResaleSummary from './ResaleSummary';
 
 function Dashboard() {
-  const [savedSearches, setSavedSearches] = useState([
-    {
-      "Search Term": "tampines",
-      "Results Found": "11049",
-      "Average Price": "SGD 515,716",
-    },
-    {
-      "Search Term": "woodlands",
-      "Results Found": "11714",
-      "Average Price": "SGD 438,235",
-    },
-    // ... more dummy data
-  ]);
-  const [notes, setNotes] = useState('');
-
-  // // ... handle note change and save
-  // const handleNoteChange = (event) => {
-  //   setNotes(event.target.value);
-  // };
-
-  // const handleSaveNote = () => {
-  //   // Save the note to MongoDB
-  // };
-
-  // // ... rest of your component logic
+  
 
   return (
     <Box p={5}>
@@ -46,8 +22,8 @@ function Dashboard() {
           <MortgageCalculationsTable />
         </VStack>
         <VStack>
-          <Text fontSize="lg" fontWeight="bold">Saved Searches</Text>
-          <SearchRecords history={savedSearches} onDeleteRecord={() => {}} />
+          <Text fontSize="lg" fontWeight="bold">Saved Resale Searches</Text>
+          <ResaleSummary />
         </VStack>
         <VStack>
           <Text fontSize="lg" fontWeight="bold">Notes</Text>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Select, Icon, VStack, Image, Center, Box } from '@chakra-ui/react';
 import { FaHome, FaDollarSign } from 'react-icons/fa';
-import { SearchBar } from '../components/SearchBar';
+import { SearchBar } from './SearchBar';
 import homeImage from '../assets/home.png';
 import StyledBoxFilteredResults from '../styles/StyledBoxFilteredResults';
 

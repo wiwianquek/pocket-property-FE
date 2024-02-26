@@ -11,11 +11,11 @@ import {
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import LoginPage from './components/LoginPage'; 
 import SignUpPage from './components/SignUpPage';
-import HomePage from './oldcomponents/Homepage';
-import FilteredResults from './oldcomponents/FilteredResults';
 import History from './oldcomponents/History';
 import MortgageCalculator from './components/MortgageCalculator';
 import Dashboard from './components/Dashboard';
+import ResaleData from './components/ResaleData';
+import ResaleSummary from './components/ResaleSummary';
 
 function Layout() {
   const location = useLocation();
@@ -29,16 +29,10 @@ function Layout() {
           </Heading>
           <HStack as="nav" spacing={4}>
             <ChakraLink as={Link} to="/" px={2} py={1}>
-                Home
+                My Dashboard
               </ChakraLink>
-              <ChakraLink as={Link} to="/hdb-resale-data" px={2} py={1}>
-                HDB Resale Data
-              </ChakraLink>
-              <ChakraLink as={Link} to="/history" px={2} py={1}>
-                HDB Search History
-              </ChakraLink>
-              <ChakraLink as={Link} to="/mortgage-calculator" px={2} py={1}>
-                Mortgage Calculator
+              <ChakraLink as={Link} to="/resaledata" px={2} py={1}>
+                Search HDB Resale Data
               </ChakraLink>
           </HStack>
         </Flex>
@@ -47,9 +41,10 @@ function Layout() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Dashboard />} />
-        <Route path="/hdb-resale-data" element={<FilteredResults />} />
+        <Route path="/resalesummary" element={<ResaleSummary />} />
         <Route path="/history" element={<History />} />
         <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+        <Route path="/resaledata" element={<ResaleData />} />
         {/* ... other routes */}
       </Routes>
     </>
