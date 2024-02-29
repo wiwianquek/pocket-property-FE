@@ -1,6 +1,12 @@
 import { getToken } from "../util/security";
 
-const BASE_URL = 'http://localhost:3000/resalesummary';
+let BASE_URL;
+
+if (process.env.NODE_ENV === 'production') {
+    BASE_URL = 'https://pocket-property-be.onrender.com/resalesummary';
+} else {
+    BASE_URL = 'http://localhost:3000/resalesummary';
+}
 
 export async function saveSearchSummary(entryData) {
   const token = getToken();

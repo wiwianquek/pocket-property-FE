@@ -1,6 +1,12 @@
 import { getToken } from "../util/security"; 
 
-const BASE_URL = 'http://localhost:3000/card';
+let BASE_URL;
+
+if (process.env.NODE_ENV === 'production') {
+    BASE_URL = 'https://pocket-property-be.onrender.com/card';
+} else {
+    BASE_URL = 'http://localhost:3000/card';
+}
 
 export async function getCardID() {
     const response = await fetch(BASE_URL, {

@@ -1,6 +1,12 @@
 import { getToken } from "../util/security";
 
-const BASE_URL = 'http://localhost:3000/notes';
+let BASE_URL;
+
+if (process.env.NODE_ENV === 'production') {
+    BASE_URL = 'https://pocket-property-be.onrender.com/notes';
+} else {
+    BASE_URL = 'http://localhost:3000/notes';
+}
 
 export async function createNotesEntry(entryData) {
   const token = getToken();

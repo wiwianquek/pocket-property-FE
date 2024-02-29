@@ -1,5 +1,10 @@
-const BASE_URL = 'http://localhost:3000/users';
-// const BASE_URL = 'https://elysio.onrender.com/users';
+let BASE_URL;
+
+if (process.env.NODE_ENV === 'production') {
+    BASE_URL = 'https://pocket-property-be.onrender.com/users';
+} else {
+    BASE_URL = 'http://localhost:3000/users';
+}
 
 // Add a function to get user details by username or email
 export async function getUserByUsername(username) {
