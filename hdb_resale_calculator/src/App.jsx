@@ -6,6 +6,7 @@ import {
   VStack,
   HStack,
   Heading,
+  Button,
   Link as ChakraLink,
 } from '@chakra-ui/react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
@@ -16,6 +17,7 @@ import MortgageCalculator from './components/MortgageCalculator';
 import Dashboard from './components/Dashboard';
 import ResaleData from './components/ResaleData';
 import ResaleSummary from './components/ResaleSummary';
+import { logoutUser } from './service/users'
 
 function Layout() {
   const location = useLocation();
@@ -23,17 +25,32 @@ function Layout() {
   return (
     <>
      {location.pathname !== '/signup' && location.pathname !== '/login' && (
-        <Flex as="header" bg="yellow.100" w="full" justify="space-between" p={4}>
+        <Flex as="header" bg="white" w="full" justify="space-between" p={4} align="center" boxShadow="sm">
           <Heading as="h1" size="lg" ml={8}>
             Pocket Property
           </Heading>
           <HStack as="nav" spacing={4}>
-            <ChakraLink as={Link} to="/" px={2} py={1}>
-                My Dashboard
-              </ChakraLink>
-              <ChakraLink as={Link} to="/resaledata" px={2} py={1}>
-                Search HDB Resale Data
-              </ChakraLink>
+            <ChakraLink
+              as={Link}
+              to="/"
+              px={2}
+              py={1}
+              _hover={{ color: 'blue.500' }} // This will change the text color to blue on hover
+            >
+              My Dashboard
+            </ChakraLink>
+            <ChakraLink
+              as={Link}
+              to="/resaledata"
+              px={2}
+              py={1}
+              _hover={{ color: 'blue.500' }} // This will change the text color to blue on hover
+            >
+              Search HDB Resale Data
+            </ChakraLink>
+            <Button as={Link} to="#" colorScheme="blue" size="sm" onClick={logoutUser}>
+              Log Out
+            </Button>
           </HStack>
         </Flex>
       )}
@@ -161,5 +178,4 @@ function App() {
 }
 
 export default App;
-
 

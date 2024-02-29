@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Flex, Text, VStack } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Button, Text, Box } from '@chakra-ui/react';
 import { getSearchSummaryByUserId, deleteSearchSummary } from '../service/resalesummary';
 
 function formatCurrency(value) {
@@ -10,13 +10,12 @@ function formatCurrency(value) {
 }
 
 const ResaleSummary = () => {
-  const [summaries, setSummaries] = useState([]);
-  const [loading, setLoading] = useState(false);
+    const [summaries, setSummaries] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  // Fetch saved search summaries for the user
+    // Fetch saved search summaries for the user
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         const data = await getSearchSummaryByUserId();
         setSummaries(data);
@@ -40,24 +39,13 @@ const ResaleSummary = () => {
     }
   };
 
-  // Here you would include the method to handle saving a new summary
-  // which you would trigger from another part of your UI
-  const handleSave = async (newSummary) => {
-    try {
-      const savedSummary = await saveSearchSummary(newSummary);
-      setSummaries([...summaries, savedSummary]);
-    } catch (error) {
-      console.error('Failed to save new summary:', error);
-    }
-  };
-
   // Helper function to format search terms
   const formatSearchTerms = (terms) => {
     return {
-      town: terms.town || 'All',
-      flat_type: terms.flat_type?.join(', ') || 'All',
-      property_type: terms.property_type?.join(', ') || 'All',
-      storey_range: terms.storey_range?.join(', ') || 'All',
+      town: terms?.town || 'All', // Access the 'search' key instead of 'town'
+      flat_type: terms?.flat_type?.join(', ') || 'All',
+      flat_model: terms?.flat_model?.join(', ') || 'All',
+      storey_range: terms?.storey_range?.join(', ') || 'All',
     };
   };
 
@@ -65,32 +53,54 @@ const ResaleSummary = () => {
     return <Text>Loading...</Text>;
   }
 
-  return (
-    <VStack spacing={4}>
-      {summaries.map((summary) => {
-        // Format the search terms for display
-        const formattedSearchTerms = formatSearchTerms(summary.searchTerms);
+  // Check if summaries are not null or undefined before rendering
+  if (!summaries) {
+    return <Text>No data found.</Text>;
+  }
 
-        return (
-          <Flex key={summary._id} align="center" justify="space-between" p={3} w="full" borderWidth="1px">
-            <Box>
-              <Text fontWeight="bold">Search Term: {formattedSearchTerms.town}</Text>
-              <Text>Units Found: {summary.unitsFound}</Text>
-              <Text>Average Price: {formatCurrency(summary.averagePrice)}</Text>
-              <Text>Lease Term: {summary.averageLeaseTerm}</Text>
-              <Text>Flat Type: {formattedSearchTerms.flat_type}</Text>
-              <Text>Property Type: {formattedSearchTerms.property_type}</Text>
-              <Text>Storey Range: {formattedSearchTerms.storey_range}</Text>
-            </Box>
-            <Button colorScheme="red" my={5} py={5} onClick={() => handleDelete(summary._id)}>
-              Delete
-            </Button>
-          </Flex>
-        );
-      })}
-    </VStack>
-  );
+    return (
+      <Box maxW="820px" overflowX="auto">
+        <TableContainer>
+            <Table variant="simple">
+                <Thead>
+                    <Tr>
+                        <Th>Search Term</Th>
+                        <Th>Units Found</Th>
+                        <Th>Average Price</Th>
+                        <Th>Average Lease Term</Th>
+                        <Th>Flat Type</Th>
+                        <Th>Flat Model</Th>
+                        <Th>Storey Range</Th>
+                        <Th>Action</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {summaries.map((summary) => {
+                        const formattedSearchTerms = formatSearchTerms(summary.searchTerms);
+                        return (
+                            <Tr key={summary._id}>
+                                <Td>{formattedSearchTerms.town}</Td>
+                                <Td>{summary.unitsFound}</Td>
+                                <Td>{formatCurrency(summary.averagePrice)}</Td>
+                                <Td>{summary.averageLeaseTerm}</Td>
+                                <Td>{formattedSearchTerms.flat_type}</Td>
+                                <Td>{formattedSearchTerms.flat_model}</Td>
+                                <Td>{formattedSearchTerms.storey_range}</Td>
+                                <Td>
+                                    <Button colorScheme="red" onClick={() => handleDelete(summary._id)}>
+                                        Delete
+                                    </Button>
+                                </Td>
+                            </Tr>
+                        );
+                    })}
+                </Tbody>
+            </Table>
+        </TableContainer>
+      </Box> 
+    );
 };
 
 export default ResaleSummary;
+
 

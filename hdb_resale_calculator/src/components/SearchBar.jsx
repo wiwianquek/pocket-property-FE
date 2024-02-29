@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Box, Input, InputGroup, InputLeftElement, Icon } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 

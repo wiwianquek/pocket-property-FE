@@ -19,36 +19,6 @@ export async function getResaleDataForUser() {
   }
 }
 
-// export async function searchResaleData(queryParams) {
-//   const token = getToken();
-
-//   // Convert array parameters into separate query params
-//   const searchParams = new URLSearchParams();
-//   Object.keys(queryParams).forEach(key => {
-//     if (Array.isArray(queryParams[key])) {
-//       queryParams[key].forEach(value => searchParams.append(key, value));
-//     } else {
-//       searchParams.append(key, queryParams[key]);
-//     }
-//   });
-
-//   const searchURL = `${BASE_URL}/search?${searchParams}`;
-//   const response = await fetch(searchURL, {
-//     method: 'GET',
-//     headers: {
-//       'Authorization': `Bearer ${token}`,
-//       'Content-Type': 'application/json'
-//     },
-//   });
-
-//   if (response.ok) {
-//     return response.json();
-//   } else {
-//     throw new Error('Failed to search resale data');
-//   }
-// }
-
-
 export async function searchResaleData(queryParams) {
   const token = getToken();
 

@@ -46,7 +46,8 @@ export async function logoutUser() {
   if(token){
     const res = await usersAPI.logoutUser(token, JSON.parse(atob(token.split(".")[1])).payload);
     removeToken();
-    window.location.reload();
+    //Redirect to login page once user logs out
+    window.location.href = '/login';
     return res;
   }
   return true;

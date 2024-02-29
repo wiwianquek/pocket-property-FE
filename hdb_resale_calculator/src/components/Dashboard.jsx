@@ -7,7 +7,6 @@ import {
   Textarea,
   Button,
 } from '@chakra-ui/react';
-import MortgageCalculationsTable from './MortgageCalculationsTable'; // The new component we created above
 import Notes from './Notes';
 import ResaleSummary from './ResaleSummary';
 
@@ -16,17 +15,13 @@ function Dashboard() {
 
   return (
     <Box p={5}>
-      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-        <VStack>
-          <Text fontSize="lg" fontWeight="bold">Mortgage Calculations</Text>
-          <MortgageCalculationsTable />
-        </VStack>
+      <Grid templateColumns="repeat(2, 1fr)">
         <VStack>
           <Text fontSize="lg" fontWeight="bold">Saved Resale Searches</Text>
           <ResaleSummary />
         </VStack>
         <VStack>
-          <Text fontSize="lg" fontWeight="bold">Notes</Text>
+          <Text fontSize="lg" fontWeight="bold"></Text>
           <Notes />
         </VStack>
       </Grid>
