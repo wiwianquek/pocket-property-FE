@@ -49,6 +49,73 @@ const ResaleSummary = () => {
     };
   };
 
+  function generatePropertyGuruUrl(searchTerm, flatTypes) {
+    const baseUrl = 'https://www.propertyguru.com.sg/property-for-sale';
+    const searchParams = new URLSearchParams({
+      'market': 'residential',
+      'freetext': searchTerm,
+      'listing_type': 'sale',
+      'property_type': 'H', // Assuming 'H' is for HDB
+      'search': 'true'
+    });
+  
+    // Define property type codes for each room type
+    const propertyTypeCodes = {
+      '1 ROOM': ['1R'],
+      '2 ROOM': ['2A', '2I', '2S'],
+      '3 ROOM': ['3A', '3NG', '3Am', '3NGm', '3I', '3Im', '3S', '3STD', '3PA'],
+      '4 ROOM': ['4A', '4NG', '4PA', '4S', '4I', '4STD'],
+      '5 ROOM': ['5A', '5I', '5PA', '5S', '6J', 'EA', 'EM', 'MG', 'TE'],
+      // Add all the other room types you support here
+    };
+  
+    // Add 'beds[]' and 'property_type_code[]' parameters
+    flatTypes.split(',').forEach(flatType => {
+      const trimmedFlatType = flatType.trim();
+      const codes = propertyTypeCodes[trimmedFlatType];
+      if (codes) {
+        codes.forEach(code => {
+          searchParams.append('property_type_code[]', code);
+        });
+        // Assuming the number of beds is the first digit in the flat type string
+        const beds = trimmedFlatType[0];
+        if (beds) {
+          searchParams.append('beds[]', beds);
+        }
+      }
+    });
+  
+    return `${baseUrl}?${searchParams.toString()}`;
+  }
+
+  function generateNineNineCoUrl(searchTerm, flatTypes) {
+    const baseUrl = 'https://www.99.co/singapore/sale';
+    const searchParams = new URLSearchParams({
+      'autocom': 'true',
+      'main_category': 'hdb',
+      'name': searchTerm,
+      'show_nearby': 'true'
+    });
+  
+    // Map flat types to 99.co's room parameters
+    const roomMapping = {
+      '1 ROOM': '1',
+      '2 ROOM': '2',
+      '3 ROOM': '3',
+      '4 ROOM': '4',
+      '5 ROOM': '5',
+    };
+  
+    // Add 'rooms' parameter based on the flatTypes
+    let rooms = flatTypes.split(',').map(flatType => roomMapping[flatType.trim()]).filter(Boolean);
+    if (rooms.length > 0) {
+      searchParams.append('rooms', rooms.join(','));
+    }
+  
+    return `${baseUrl}?${searchParams.toString()}`;
+  }
+  
+  
   if (loading) {
     return <Text>Loading...</Text>;
   }
@@ -59,7 +126,7 @@ const ResaleSummary = () => {
   }
 
     return (
-      <Box maxW="820px" overflowX="auto">
+      <Box maxW="840px" maxH="480px" overflowX="auto">
         <TableContainer>
             <Table variant="simple">
                 <Thead>
@@ -72,16 +139,21 @@ const ResaleSummary = () => {
                         <Th>Flat Model</Th>
                         <Th>Storey Range</Th>
                         <Th>Action</Th>
+                        <Th>Search Similar Properties</Th>
+                        <Th>Search Similar Properties</Th>
                     </Tr>
-                </Thead>
-                <Tbody>
-                    {summaries.map((summary) => {
+                    </Thead>
+                    <Tbody>
+                      {summaries.map((summary) => {
                         const formattedSearchTerms = formatSearchTerms(summary.searchTerms);
+                        const propertyGuruUrl = generatePropertyGuruUrl(formattedSearchTerms.town, formattedSearchTerms.flat_type);
+                        const nineNineCoUrl = generateNineNineCoUrl(formattedSearchTerms.town, formattedSearchTerms.flat_type);
+            
                         return (
-                            <Tr key={summary._id}>
-                                <Td color={'darkblue'}>{formattedSearchTerms.town}</Td>
+                          <Tr key={summary._id}>
+                                <Td color={'teal'}>{formattedSearchTerms.town}</Td>
                                 <Td>{summary.unitsFound}</Td>
-                                <Td color={'green'}>{formatCurrency(summary.averagePrice)}</Td>
+                                <Td color={'teal'}>{formatCurrency(summary.averagePrice)}</Td>
                                 <Td>{summary.averageLeaseTerm}</Td>
                                 <Td>{formattedSearchTerms.flat_type}</Td>
                                 <Td>{formattedSearchTerms.flat_model}</Td>
@@ -90,6 +162,22 @@ const ResaleSummary = () => {
                                     <Button colorScheme="red" onClick={() => handleDelete(summary._id)}>
                                         Delete
                                     </Button>
+                                </Td>
+                                <Td>
+                                  <Button
+                                    colorScheme="blue"
+                                    onClick={() => window.open(propertyGuruUrl, '_blank')}
+                                  >
+                                    Search on PropertyGuru
+                                  </Button>
+                                </Td>
+                                <Td>
+                                  <Button
+                                    colorScheme="blue"
+                                    onClick={() => window.open(nineNineCoUrl, '_blank')}
+                                  >
+                                    Search on 99.co
+                                  </Button>
                                 </Td>
                             </Tr>
                         );
@@ -102,5 +190,6 @@ const ResaleSummary = () => {
 };
 
 export default ResaleSummary;
+
 
 

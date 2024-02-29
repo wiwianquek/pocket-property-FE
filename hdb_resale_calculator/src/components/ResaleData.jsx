@@ -33,7 +33,7 @@ function formatCurrency(value) {
 const ResaleData = () => {
   const [searchParams, setSearchParams] = useState({});
   const [searchSummary, setSearchSummary] = useState({
-    unitsFound: 0,
+    unitsFound: '',
     averagePrice: '',
     averageLeaseTerm: '',
     searchTerms: {},
@@ -42,62 +42,58 @@ const ResaleData = () => {
 
   const toast = useToast(); 
 
-  const handleSearchSubmit = async () => {
-  // Clear previous search results by resetting the search summary state
-  setSearchSummary({
-      unitsFound: 0,
-      averagePrice: '',
-      averageLeaseTerm: '',
-      searchTerms: {},
-  });
+ const handleSearchSubmit = async () => {
+  setSearchSummary(null);  // Reset to null when starting a new search
   setLoading(true); // Start loading
-  try {
-  // Display a toast indicating the search is starting
-      toast({
-          title: 'Searching...',
-          description: 'Generating results.',
-          status: 'info',
-          duration: 3000,
-          isClosable: true,
-      });
-  
-      // Make the API call to search for new data
-      const data = await searchResaleData(searchParams);
 
-      // Update the search summary with the new data
-      setSearchSummary({
-          unitsFound: data.summary.unitsFound,
-          averagePrice: formatCurrency(data.summary.averagePrice),
-          averageLeaseTerm: `${data.summary.averageRemainingLeaseYears} years ${data.summary.averageRemainingLeaseExtraMonths} months`,
-          searchTerms: {
-            town: searchParams.search,
-            flat_type: Array.isArray(data.searchTerms.flat_type) ? data.searchTerms.flat_type.join(', ') : data.searchTerms.flat_type || 'All',
-            flat_model: Array.isArray(data.searchTerms.flat_model) ? data.searchTerms.flat_model.join(', ') : data.searchTerms.flat_model || 'All',
-            storey_range: Array.isArray(data.searchTerms.storey_range) ? data.searchTerms.storey_range.join(', ') : data.searchTerms.storey_range || 'All',
-            },
-        });
-  
-      // Display a success toast after search results are fetched
-      toast({
-          title: 'Search Successful!',
-          description: 'Successfully retrieved results.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-      });
-      setLoading(false); // Stop loading if successful
+  // Display a toast indicating the search is starting
+  toast({
+    title: 'Searching...',
+    description: 'Generating results.',
+    status: 'info',
+    duration: 3000,
+    isClosable: true,
+  });
+
+  try {
+    // Make the API call to search for new data
+    const data = await searchResaleData(searchParams);
+
+    // Update the search summary with the new data
+    setSearchSummary({
+      unitsFound: data.summary.unitsFound,
+      averagePrice: formatCurrency(data.summary.averagePrice),
+      averageLeaseTerm: `${data.summary.averageRemainingLeaseYears} years ${data.summary.averageRemainingLeaseExtraMonths} months`,
+      searchTerms: {
+        town: searchParams.search,
+        flat_type: Array.isArray(data.searchTerms.flat_type) ? data.searchTerms.flat_type.join(', ') : data.searchTerms.flat_type || 'All',
+        flat_model: Array.isArray(data.searchTerms.flat_model) ? data.searchTerms.flat_model.join(', ') : data.searchTerms.flat_model || 'All',
+        storey_range: Array.isArray(data.searchTerms.storey_range) ? data.searchTerms.storey_range.join(', ') : data.searchTerms.storey_range || 'All',
+      },
+    });
+
+    // Display a success toast after search results are fetched
+    toast({
+      title: 'Search Successful!',
+      description: 'Successfully retrieved results.',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
   } catch (error) {
-      console.error('Search failed:', error);
-        setLoading(false); // Stop loading if an error occurs
-      toast({
-          title: 'Search failed.',
-          description: 'Unable to perform search.',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-      });
+    console.error('Search failed:', error);
+    toast({
+      title: 'Search failed.',
+      description: 'Unable to perform search.',
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
   }
+
+  setLoading(false); // Stop loading after search is completed or failed
 };
+
     const handleSearchChange = (value) => {
         setSearchParams(prev => ({ ...prev, search: value }));
     };
@@ -288,60 +284,63 @@ return (
       </Menu>
   </HStack>
 
-  <HStack justifyContent="center" spacing={4} my={4}>
-      {/* Search Summary */}
-      <Box mt={2} p={12} borderWidth="1px" borderRadius="lg" w="full" maxW="md" mx="auto">
-          <Heading size='md' mb={4}>Search Summary</Heading>
-          <StackDivider borderColor="gray.200" />
-          {/* Units Found */}
-          <Box mt={2}>
-              <Text fontWeight="bold">Units Found:</Text>
-              <Text color={'teal'}>{searchSummary.unitsFound}</Text>
-          </Box>
-          {/* Average Price */}
-          <Box mt={2}>
-              <Text fontWeight="bold">Average Price:</Text>
-              <Text color={'teal'}>{searchSummary.averagePrice}</Text>
-          </Box>
-          {/* Remaining Average Lease Term */}
-          <Box mt={2}>
-              <Text fontWeight="bold">Remaining Average Lease Term:</Text>
-              <Text color={'teal'}>{searchSummary.averageLeaseTerm}</Text>
-          </Box>
-          {/* Search Terms */}
-          <Box mt={2}>
-          <VStack align='start'>
-              <Text color={'teal'}>{searchSummary.searchTerms.search}</Text>
-              {/* Render other search terms here */}
-              {searchSummary.searchTerms.town && (
-                <>
-                    <Text fontWeight="bold">Town:</Text>
-                    <Text color={'teal'}>{searchSummary.searchTerms.town}</Text>
-                </>
-              )}
-              
-              {searchSummary.searchTerms.flat_type && (
+  {searchSummary !== null && (
+    <HStack justifyContent="center" spacing={4} my={4}>
+        {/* Search Summary */}
+        <Box mt={2} p={12} borderWidth="1px" borderRadius="lg" w="full" maxW="md" mx="auto">
+            <Heading size='md' mb={4}>Search Summary</Heading>
+            <StackDivider borderColor="gray.200" />
+            {/* Units Found */}
+            <Box mt={2}>
+                <Text fontWeight="bold">Units Found:</Text>
+                <Text color={'teal'}>{searchSummary.unitsFound}</Text>
+            </Box>
+            {/* Average Price */}
+            <Box mt={2}>
+                <Text fontWeight="bold">Average Price:</Text>
+                <Text color={'teal'}>{searchSummary.averagePrice}</Text>
+            </Box>
+            {/* Remaining Average Lease Term */}
+            <Box mt={2}>
+                <Text fontWeight="bold">Remaining Average Lease Term:</Text>
+                <Text color={'teal'}>{searchSummary.averageLeaseTerm}</Text>
+            </Box>
+            {/* Search Terms */}
+            <Box mt={2}>
+            <VStack align='start'>
+                <Text color={'teal'}>{searchSummary.searchTerms.search}</Text>
+                {/* Render other search terms here */}
+                {searchSummary.searchTerms.town && (
                   <>
-                      <Text fontWeight="bold">Flat Type:</Text>
-                      <Text color={'teal'}>{searchSummary.searchTerms.flat_type}</Text>
+                      <Text fontWeight="bold">Town:</Text>
+                      <Text color={'teal'}>{searchSummary.searchTerms.town}</Text>
                   </>
-              )}
-              {searchSummary.searchTerms.flat_model && (
-                  <>
-                      <Text fontWeight="bold">Flat Model:</Text>
-                      <Text color={'teal'}>{searchSummary.searchTerms.flat_model}</Text>
-                  </>
-              )}
-              {searchSummary.searchTerms.storey_range && (
-                  <>
-                      <Text fontWeight="bold">Storey Range:</Text>
-                      <Text color={'teal'}>{searchSummary.searchTerms.storey_range}</Text>
-                  </>
-              )}
-          </VStack>
+                )}
+                
+                {searchSummary.searchTerms.flat_type && (
+                    <>
+                        <Text fontWeight="bold">Flat Type:</Text>
+                        <Text color={'teal'}>{searchSummary.searchTerms.flat_type}</Text>
+                    </>
+                )}
+                {searchSummary.searchTerms.flat_model && (
+                    <>
+                        <Text fontWeight="bold">Flat Model:</Text>
+                        <Text color={'teal'}>{searchSummary.searchTerms.flat_model}</Text>
+                    </>
+                )}
+                {searchSummary.searchTerms.storey_range && (
+                    <>
+                        <Text fontWeight="bold">Storey Range:</Text>
+                        <Text color={'teal'}>{searchSummary.searchTerms.storey_range}</Text>
+                    </>
+                )}
+            </VStack>
+        </Box>
       </Box>
-    </Box>
-  </HStack>
+    </HStack>
+  )}
+
 
       <Button colorScheme="blue" alignSelf="center" my={4} onClick={handleSaveSearchSummary}>
         Save Search
@@ -353,3 +352,55 @@ return (
 
 export default ResaleData;
 
+///
+const handleSearchSubmit = async () => {
+  setSearchSummary(null);  // Reset to null when starting a new search
+  setLoading(true); // Start loading
+
+  // Display a toast indicating the search is starting
+  toast({
+    title: 'Searching...',
+    description: 'Generating results.',
+    status: 'info',
+    duration: 3000,
+    isClosable: true,
+  });
+
+  try {
+    // Make the API call to search for new data
+    const data = await searchResaleData(searchParams);
+
+    // Update the search summary with the new data
+    setSearchSummary({
+      unitsFound: data.summary.unitsFound,
+      averagePrice: formatCurrency(data.summary.averagePrice),
+      averageLeaseTerm: `${data.summary.averageRemainingLeaseYears} years ${data.summary.averageRemainingLeaseExtraMonths} months`,
+      searchTerms: {
+        town: searchParams.search,
+        flat_type: Array.isArray(data.searchTerms.flat_type) ? data.searchTerms.flat_type.join(', ') : data.searchTerms.flat_type || 'All',
+        flat_model: Array.isArray(data.searchTerms.flat_model) ? data.searchTerms.flat_model.join(', ') : data.searchTerms.flat_model || 'All',
+        storey_range: Array.isArray(data.searchTerms.storey_range) ? data.searchTerms.storey_range.join(', ') : data.searchTerms.storey_range || 'All',
+      },
+    });
+
+    // Display a success toast after search results are fetched
+    toast({
+      title: 'Search Successful!',
+      description: 'Successfully retrieved results.',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+  } catch (error) {
+    console.error('Search failed:', error);
+    toast({
+      title: 'Search failed.',
+      description: 'Unable to perform search.',
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+
+  setLoading(false); // Stop loading after search is completed or failed
+};

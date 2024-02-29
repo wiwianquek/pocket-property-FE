@@ -46,23 +46,6 @@ const Notes = () => {
     fetchNotes();
   }, []);
   
-  // // Fetch notes for a specific card
-  // useEffect(() => {
-  //   const fetchCardWithNotes = async () => {
-  //     try {
-  //       const cardWithNotes = await cardAPI.getCardWithNotes(currentCardId);
-  //       console.log('Fetched card with notes:', cardWithNotes);
-  //       setNotes(cardWithNotes.notesentry_ids); // Adjust according to the actual response structure
-  //     } catch (error) {
-  //       console.error("Failed to fetch card with notes:", error);
-  //     }
-  //   };
-  
-  //   if (currentCardId) {
-  //     fetchCardWithNotes();
-  //   }
-  // }, [currentCardId]);
-
   // Open the modal to add a new note
   const openModalForNewNote = () => {
     setCurrentNote({ _id: null, title: '', content: '', card_id: currentCardId });
@@ -165,36 +148,40 @@ const Notes = () => {
       <Button leftIcon={<AddIcon />} colorScheme="teal" onClick={openModalForNewNote}>
         Add Note
       </Button>
-      <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={4} mt={4}>
-        {notes.map((note) => (
-          <Box
-            mt={4}
-            maxH="350px" // Increased maximum height
-            overflowY="auto"
-            key={note._id}
-            borderWidth="1px"
-            borderRadius="lg"
-            overflow="hidden"
-            p={6} // Increased padding
-            transition="background 0.3s, box-shadow 0.3s"
-            _hover={{ bg: 'gray.50', boxShadow: 'md' }}
-          >
-            <Heading size="md" mb={4}>{note.entry_title}</Heading> {/* Increased margin-bottom */}
-            <Text mb={4}>{note.entry_text}</Text> {/* Increased margin-bottom */}
-            <IconButton
-              aria-label="Edit note"
-              icon={<EditIcon />}
-              onClick={() => openModalToEditNote(note)}
-              mr={2} // Added margin-right for spacing
-            />
-            <IconButton
-              aria-label="Delete note"
-              icon={<DeleteIcon />}
-              onClick={() => handleDeleteNote(note._id, note.card_id)}
-            />
-          </Box>
-        ))}
-      </SimpleGrid>
+      <Box
+        maxW="840px"
+        maxH="430px"
+        overflowY="auto"
+        pr="16px" // Add right padding to account for scrollbar width
+      >
+        <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={4} mt={4}>
+          {notes.map((note) => (
+            <Box
+              key={note._id}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              p={6}
+              transition="background 0.3s, box-shadow 0.3s"
+              _hover={{ bg: 'gray.50', boxShadow: 'md' }}
+            >
+              <Heading size="md" mb={4}>{note.entry_title}</Heading>
+              <Text mb={4}>{note.entry_text}</Text>
+              <IconButton
+                aria-label="Edit note"
+                icon={<EditIcon />}
+                onClick={() => openModalToEditNote(note)}
+                mr={2}
+              />
+              <IconButton
+                aria-label="Delete note"
+                icon={<DeleteIcon />}
+                onClick={() => handleDeleteNote(note._id, note.card_id)}
+              />
+            </Box>
+          ))}
+        </SimpleGrid>
+      </Box>
 
       {/* Modal for editing or adding notes */}
       <Modal isOpen={isOpen} onClose={onClose}>
