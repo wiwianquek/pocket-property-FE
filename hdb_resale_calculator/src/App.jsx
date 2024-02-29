@@ -60,7 +60,7 @@ function Layout() {
           path="/resalesummary"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <ResaleSummary />
             </PrivateRoute>
           }
         />
@@ -68,7 +68,7 @@ function Layout() {
           path="/resaledata"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <ResaleData />
             </PrivateRoute>
           }
         />

@@ -64,7 +64,7 @@ const ResaleSummary = () => {
             <Table variant="simple">
                 <Thead>
                     <Tr>
-                        <Th>Search Term</Th>
+                        <Th>Saved Searches</Th>
                         <Th>Units Found</Th>
                         <Th>Average Price</Th>
                         <Th>Average Lease Term</Th>
@@ -79,9 +79,9 @@ const ResaleSummary = () => {
                         const formattedSearchTerms = formatSearchTerms(summary.searchTerms);
                         return (
                             <Tr key={summary._id}>
-                                <Td>{formattedSearchTerms.town}</Td>
+                                <Td color={'darkblue'}>{formattedSearchTerms.town}</Td>
                                 <Td>{summary.unitsFound}</Td>
-                                <Td>{formatCurrency(summary.averagePrice)}</Td>
+                                <Td color={'green'}>{formatCurrency(summary.averagePrice)}</Td>
                                 <Td>{summary.averageLeaseTerm}</Td>
                                 <Td>{formattedSearchTerms.flat_type}</Td>
                                 <Td>{formattedSearchTerms.flat_model}</Td>

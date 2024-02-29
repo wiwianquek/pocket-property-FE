@@ -177,7 +177,7 @@ const Notes = () => {
             overflow="hidden"
             p={6} // Increased padding
             transition="background 0.3s, box-shadow 0.3s"
-            _hover={{ bg: 'gray.100', boxShadow: 'md' }}
+            _hover={{ bg: 'gray.50', boxShadow: 'md' }}
           >
             <Heading size="md" mb={4}>{note.entry_title}</Heading> {/* Increased margin-bottom */}
             <Text mb={4}>{note.entry_text}</Text> {/* Increased margin-bottom */}
