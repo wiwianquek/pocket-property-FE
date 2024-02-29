@@ -28,7 +28,7 @@ function Layout() {
   return (
     <>
       {location.pathname !== '/signup' && location.pathname !== '/login' && (
-        <Flex as="header" bg="white" w="full" justify="space-between" p={4} align="center" boxShadow="sm">
+        <Flex bg="gray.100" as="header" w="full" justify="space-between" p={4} align="center" boxShadow="sm">
           <Heading as="h1" size="lg" ml={8}>
             Pocket Property
           </Heading>

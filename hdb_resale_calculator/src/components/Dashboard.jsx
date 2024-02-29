@@ -22,7 +22,7 @@ function Dashboard() {
       >
         <Grid templateColumns="repeat(2, 1fr)" position="relative" zIndex="10">
             <VStack transition="background 0.3s, box-shadow 0.3s"
-            _hover={{ bg: 'gray.100', boxShadow: 'md' }}>
+            _hover={{ boxShadow: 'md' }}>
               <ResaleSummary />
             </VStack>
             <VStack>
