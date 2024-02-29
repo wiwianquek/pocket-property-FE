@@ -4,8 +4,6 @@ import {
   Grid,
   VStack,
   Text,
-  Textarea,
-  Button,
 } from '@chakra-ui/react';
 import Notes from './Notes';
 import ResaleSummary from './ResaleSummary';

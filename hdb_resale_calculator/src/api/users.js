@@ -1,10 +1,5 @@
-let BASE_URL;
-
-if (process.env.NODE_ENV === 'production') {
-    BASE_URL = 'https://pocket-property-be.onrender.com/users';
-} else {
-    BASE_URL = 'http://localhost:3000/users';
-}
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:3000';
+BASE_URL += '/users';
 
 // Add a function to get user details by username or email
 export async function getUserByUsername(username) {
