@@ -7,14 +7,14 @@ const SearchBar = ({ onSearchChange, onSearchSubmit }) => {
   
     const handleKeyPress = (event) => {
       if (event.key === 'Enter') {
-        onSearchSubmit(); // Call onSearchSubmit only when Enter is pressed
+        onSearchSubmit(); // call onSearchSubmit only when Enter is pressed
       }
     };
   
     const handleChange = (event) => {
       const value = event.target.value;
-      setSearchValue(value); // Update the local state
-      onSearchChange(value); // Update the parent component's state
+      setSearchValue(value); 
+      onSearchChange(value); 
     };
   
     return (

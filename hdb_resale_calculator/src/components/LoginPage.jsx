@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Flex, Input, Button, FormControl, FormLabel, Heading, useToast } from '@chakra-ui/react';
-import { getLoginDetails, loginUser } from '../service/users'; // Updated import
+import { getLoginDetails, loginUser } from '../service/users'; 
 import { useNavigate } from 'react-router-dom';
-import { hashDataWithSaltRounds, storeToken } from '../util/security'; // Updated import
+import { hashDataWithSaltRounds, storeToken } from '../util/security'; 
 import { Link } from 'react-router-dom';
 import pocketPropertyImage from '../assets/pocketproperty.png';
   

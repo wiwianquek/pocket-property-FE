@@ -29,7 +29,7 @@ export async function deleteCard(cardId) {
   const response = await fetch(`${BASE_URL}/${cardId}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${getToken()}`, // Ensure the token is being used
+      'Authorization': `Bearer ${getToken()}`, // ensure the token is being used
       'Content-Type': 'application/json',
     },
   });
@@ -42,7 +42,7 @@ export async function getCardWithNotes(cardId) {
   const response = await fetch(`${BASE_URL}/${cardId}`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${getToken()}`, // Use the actual function to get the token
+      'Authorization': `Bearer ${getToken()}`, // use the actual function to get the token
       'Content-Type': 'application/json',
     },
   });

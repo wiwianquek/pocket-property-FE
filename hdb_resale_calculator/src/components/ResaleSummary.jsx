@@ -13,7 +13,7 @@ const ResaleSummary = () => {
     const [summaries, setSummaries] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Fetch saved search summaries for the user
+    // fetch saved search summaries for the user
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,7 +29,7 @@ const ResaleSummary = () => {
     fetchData();
   }, []);
 
-  // Handle the deletion of a summary
+  // handle the deletion of a summary
   const handleDelete = async (summaryId) => {
     try {
       await deleteSearchSummary(summaryId);
@@ -39,7 +39,7 @@ const ResaleSummary = () => {
     }
   };
 
-  // Helper function to format search terms
+  // helper function to format search terms
   const formatSearchTerms = (terms) => {
     return {
       town: terms?.town || 'All', // Access the 'search' key instead of 'town'
@@ -59,17 +59,16 @@ const ResaleSummary = () => {
       'search': 'true'
     });
   
-    // Define property type codes for each room type
+    // define property type codes for each room type
     const propertyTypeCodes = {
       '1 ROOM': ['1R'],
       '2 ROOM': ['2A', '2I', '2S'],
       '3 ROOM': ['3A', '3NG', '3Am', '3NGm', '3I', '3Im', '3S', '3STD', '3PA'],
       '4 ROOM': ['4A', '4NG', '4PA', '4S', '4I', '4STD'],
       '5 ROOM': ['5A', '5I', '5PA', '5S', '6J', 'EA', 'EM', 'MG', 'TE'],
-      // Add all the other room types you support here
     };
   
-    // Add 'beds[]' and 'property_type_code[]' parameters
+    // add 'beds[]' and 'property_type_code[]' parameters
     flatTypes.split(',').forEach(flatType => {
       const trimmedFlatType = flatType.trim();
       const codes = propertyTypeCodes[trimmedFlatType];
@@ -77,7 +76,7 @@ const ResaleSummary = () => {
         codes.forEach(code => {
           searchParams.append('property_type_code[]', code);
         });
-        // Assuming the number of beds is the first digit in the flat type string
+        // assuming the number of beds is the first digit in the flat type string
         const beds = trimmedFlatType[0];
         if (beds) {
           searchParams.append('beds[]', beds);
@@ -97,7 +96,7 @@ const ResaleSummary = () => {
       'show_nearby': 'true'
     });
   
-    // Map flat types to 99.co's room parameters
+    // map flat types to 99.co's room parameters
     const roomMapping = {
       '1 ROOM': '1',
       '2 ROOM': '2',
@@ -106,7 +105,7 @@ const ResaleSummary = () => {
       '5 ROOM': '5',
     };
   
-    // Add 'rooms' parameter based on the flatTypes
+    // add 'rooms' parameter based on the flatTypes
     let rooms = flatTypes.split(',').map(flatType => roomMapping[flatType.trim()]).filter(Boolean);
     if (rooms.length > 0) {
       searchParams.append('rooms', rooms.join(','));
@@ -120,7 +119,7 @@ const ResaleSummary = () => {
     return <Text>Loading...</Text>;
   }
 
-  // Check if summaries are not null or undefined before rendering
+  // check if summaries are not null or undefined before rendering
   if (!summaries) {
     return <Text>No data found.</Text>;
   }

@@ -1,6 +1,6 @@
 import { getToken } from "../util/security";
 
-let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:3000';
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:3000'; 
 BASE_URL += '/notes';
 
 export async function createNotesEntry(entryData) {

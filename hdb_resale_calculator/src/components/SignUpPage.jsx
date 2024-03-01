@@ -12,28 +12,27 @@ export default function SignUpPage() {
     username: '',
     email: '',
     password: '',
-    // No need to include salt and iterations in state if they're generated during form submission
   });
 
-  const toast = useToast(); // Initialize the toast function
+  const toast = useToast(); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Hash the password here before sending to the backend
+    // hash the password here before sending to the backend
     const { hash, salt, iterations } = hashData(formData.password);
 
-    // Create the user object with hashed password, salt, and iterations
+    // create the user object with hashed password, salt, and iterations
     const userToCreate = {
       first_name: formData.first_name,
       last_name: formData.last_name,
       username: formData.username,
       email: formData.email,
-      password: hash, // Use the hashed password here
-      salt: salt, // Include the generated salt
-      iterations: iterations, // Include the generated iterations
+      password: hash, // use the hashed password here
+      salt: salt, // include the generated salt
+      iterations: iterations, // include the generated iterations
     };
 
     try {
@@ -45,7 +44,6 @@ export default function SignUpPage() {
         duration: 5000,
         isClosable: true,
       });
-      // Further actions on success, like redirecting to a login page
     } catch (error) {
       toast({
         title: 'Error.',
@@ -54,7 +52,6 @@ export default function SignUpPage() {
         duration: 5000,
         isClosable: true,
       });
-      // Further error handling
     }
   };
 
@@ -63,12 +60,12 @@ export default function SignUpPage() {
       minH="100vh"
       w="full"
       align="center"
-      justify="flex-end" // Change from "center" to "flex-end" to lean towards the right
+      justify="flex-end" 
       bgImage={`url(${pocketPropertyImage})`}
       bgSize="212vh"
       bgPosition="center"
       position="relative"
-      pr={{ base: 4, md: 8, lg: 12 }} // Add padding to the right to not stick to the edge
+      pr={{ base: 4, md: 8, lg: 12 }} 
     >
         <Box
           p={3}
@@ -76,8 +73,8 @@ export default function SignUpPage() {
           boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
           border="1px solid transparent"
           bg="white"
-          maxW="md" // Increase the maximum width here
-          width="full" // Make sure it takes the full width of the maxW
+          maxW="md" 
+          width="full" 
           zIndex="docked"
           mr="20"
           _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }}
@@ -152,10 +149,10 @@ export default function SignUpPage() {
             </Button>
           </form>
           <Button
-            as={Link} // This makes the button act as a router link
-            to="/login" // Path to the signup page
+            as={Link} 
+            to="/login" 
             colorScheme="blue"
-            variant="link" // Make it look like a link
+            variant="link" 
             mt="4"
             >
             Have an account? Login here.

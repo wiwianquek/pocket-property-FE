@@ -10,7 +10,6 @@ import {
   MenuOptionGroup,
   MenuItemOption,
   VStack,
-  Stack,
   StackDivider,
   Text,
   HStack,
@@ -43,10 +42,10 @@ const ResaleData = () => {
   const toast = useToast(); 
 
  const handleSearchSubmit = async () => {
-  setSearchSummary(null);  // Reset to null when starting a new search
-  setLoading(true); // Start loading
+  setSearchSummary(null);  // reset to null when starting a new search
+  setLoading(true); // start loading
 
-  // Display a toast indicating the search is starting
+  // display a toast indicating the search is starting
   toast({
     title: 'Searching...',
     description: 'Generating results.',
@@ -56,10 +55,10 @@ const ResaleData = () => {
   });
 
   try {
-    // Make the API call to search for new data
+    // make the API call to search for new data
     const data = await searchResaleData(searchParams);
 
-    // Update the search summary with the new data
+    // update the search summary with the new data
     setSearchSummary({
       unitsFound: data.summary.unitsFound,
       averagePrice: formatCurrency(data.summary.averagePrice),
@@ -72,7 +71,7 @@ const ResaleData = () => {
       },
     });
 
-    // Display a success toast after search results are fetched
+    // displays a success toast after search results are fetched
     toast({
       title: 'Search Successful!',
       description: 'Successfully retrieved results.',
@@ -91,7 +90,7 @@ const ResaleData = () => {
     });
   }
 
-  setLoading(false); // Stop loading after search is completed or failed
+  setLoading(false); // stop loading after search is completed or failed
 };
 
     const handleSearchChange = (value) => {
@@ -107,17 +106,16 @@ const ResaleData = () => {
   
     let newValues;
     if (selectedValues.includes('all')) {
-        // If "Select All" is checked, and it was previously not all selected, select all
-        // Else if "Select All" is checked, and all were previously selected, unselect all
+        // if "Select All" is checked, and it was previously not all selected, select all
+        // else if "Select All" is checked, and all were previously selected, unselect all
         newValues = searchParams[filterType]?.length === allValues[filterType].length ? [] : [...allValues[filterType]];
     } else {
-        // Exclude the 'all' option and filter out any unselected values
+        // exclude the 'all' option and filter out any unselected values
         newValues = selectedValues.filter(value => value !== 'all');
     }
   
     setSearchParams(prev => ({ ...prev, [filterType]: newValues }));
 };
-
 
       const handleSaveSearchSummary = async () => {
         try {
@@ -351,56 +349,3 @@ return (
 };
 
 export default ResaleData;
-
-///
-const handleSearchSubmit = async () => {
-  setSearchSummary(null);  // Reset to null when starting a new search
-  setLoading(true); // Start loading
-
-  // Display a toast indicating the search is starting
-  toast({
-    title: 'Searching...',
-    description: 'Generating results.',
-    status: 'info',
-    duration: 3000,
-    isClosable: true,
-  });
-
-  try {
-    // Make the API call to search for new data
-    const data = await searchResaleData(searchParams);
-
-    // Update the search summary with the new data
-    setSearchSummary({
-      unitsFound: data.summary.unitsFound,
-      averagePrice: formatCurrency(data.summary.averagePrice),
-      averageLeaseTerm: `${data.summary.averageRemainingLeaseYears} years ${data.summary.averageRemainingLeaseExtraMonths} months`,
-      searchTerms: {
-        town: searchParams.search,
-        flat_type: Array.isArray(data.searchTerms.flat_type) ? data.searchTerms.flat_type.join(', ') : data.searchTerms.flat_type || 'All',
-        flat_model: Array.isArray(data.searchTerms.flat_model) ? data.searchTerms.flat_model.join(', ') : data.searchTerms.flat_model || 'All',
-        storey_range: Array.isArray(data.searchTerms.storey_range) ? data.searchTerms.storey_range.join(', ') : data.searchTerms.storey_range || 'All',
-      },
-    });
-
-    // Display a success toast after search results are fetched
-    toast({
-      title: 'Search Successful!',
-      description: 'Successfully retrieved results.',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-  } catch (error) {
-    console.error('Search failed:', error);
-    toast({
-      title: 'Search failed.',
-      description: 'Unable to perform search.',
-      status: 'error',
-      duration: 5000,
-      isClosable: true,
-    });
-  }
-
-  setLoading(false); // Stop loading after search is completed or failed
-};

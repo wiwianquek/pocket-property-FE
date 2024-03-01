@@ -22,21 +22,21 @@ import {
 import { EditIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 
 // Import API functions
-import * as notesAPI from '../api/notes'; // Assuming this file has the correct API endpoint calls
-import * as cardAPI from '../api/card'; // This should contain functions to interact with card data
+import * as notesAPI from '../api/notes'; 
+import * as cardAPI from '../api/card'; // contain functions to interact with card data
 
 const Notes = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [notes, setNotes] = useState([]);
   const [currentNote, setCurrentNote] = useState({ _id: null, title: '', content: '', card_id: null });
   const [isEditing, setIsEditing] = useState(false);
-  const [currentCardId, setCurrentCardId] = useState(null); // State to track the current card ID
+  const [currentCardId, setCurrentCardId] = useState(null); // to track the current card ID
 
   // Notes component
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const fetchedNotes = await notesAPI.getNotesEntryByUserId(); // No need to pass the token
+        const fetchedNotes = await notesAPI.getNotesEntryByUserId(); 
         setNotes(fetchedNotes);
       } catch (error) {
         console.error("Failed to fetch notes:", error);
@@ -46,14 +46,14 @@ const Notes = () => {
     fetchNotes();
   }, []);
   
-  // Open the modal to add a new note
+  // open the modal to add a new note
   const openModalForNewNote = () => {
     setCurrentNote({ _id: null, title: '', content: '', card_id: currentCardId });
     setIsEditing(false);
     onOpen();
   };
 
-  // Open the modal to edit an existing note
+  // open the modal to edit an existing note
   const openModalToEditNote = (note) => {
     setCurrentNote({
       _id: note._id,
@@ -65,7 +65,7 @@ const Notes = () => {
     onOpen();
   };
 
-  // Handle input changes in the modal
+  // handle input changes in the modal
   const handleNoteChange = (e) => {
     const { name, value } = e.target;
     setCurrentNote({ ...currentNote, [name]: value });
@@ -76,7 +76,6 @@ const Notes = () => {
     const token = getToken();
     if (!token) {
       console.error("No token found, user might not be logged in");
-      // Handle the lack of token here, maybe redirect to login page or show an error message.
       return;
     }
     if (isEditing) {
@@ -88,18 +87,18 @@ const Notes = () => {
         setNotes(notes.map((note) => (note._id === currentNote._id ? updatedNote : note)));
         onClose();
       } catch (error) {
-        // If an error occurs, log it and display a message to the user
+        // if an error occurs, log it and display a message to the user
         console.error("An error occurred while saving the note:", error);
         alert("Failed to save the note. Please try again.");
       }
     } else {
       try {
-        const token = getToken(); // Get the latest token
+        const token = getToken(); 
         const newNote = await notesAPI.createNotesEntry({
             entry_title: currentNote.title,
             entry_text: currentNote.content,
             card_id: currentCardId,
-        }, token); // Pass the token to your API call function
+        }, token); 
         setNotes([...notes, newNote]);
       } catch (error) {
           console.error("Failed to create note:", error);
