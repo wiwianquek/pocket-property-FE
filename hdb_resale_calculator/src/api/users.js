@@ -1,4 +1,6 @@
-let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
+console.log('Before BASE_URL declaration');
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL; 
+console.log(`After BASE_URL declaration: ${BASE_URL}`);
 BASE_URL += '/users';
 
 // Add a function to get user details by username or email
