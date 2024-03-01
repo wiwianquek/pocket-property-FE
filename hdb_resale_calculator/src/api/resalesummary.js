@@ -1,6 +1,6 @@
 import { getToken } from "../util/security";
 
-let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL; 
 BASE_URL += '/resalesummary';
 
 export async function saveSearchSummary(entryData) {

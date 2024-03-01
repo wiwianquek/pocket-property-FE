@@ -1,5 +1,17 @@
-let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL
-BASE_URL += '/users';
+// Log the BASE_URL to debug
+console.log(`Base URL before concatenation: ${BASE_URL}`);
+
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
+if (!BASE_URL) {
+  console.error('The BASE_URL is not defined. Check your environment variables.');
+  // Handle the error appropriately
+} else {
+  BASE_URL += '/users';
+  console.log(`Base URL after concatenation: ${BASE_URL}`);
+}
+
+// Now use BASE_URL as before in your API functions
+
 
 // Add a function to get user details by username or email
 export async function getUserByUsername(username) {

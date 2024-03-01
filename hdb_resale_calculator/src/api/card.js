@@ -1,6 +1,6 @@
 import { getToken } from "../util/security"; 
 
-let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:3000';
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL; 
 BASE_URL += '/card';
 
 export async function getCardID() {
