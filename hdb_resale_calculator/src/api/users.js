@@ -1,4 +1,4 @@
-let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:3000';
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL
 BASE_URL += '/users';
 
 // Add a function to get user details by username or email
