@@ -8,14 +8,16 @@ Pocket Property 2.0 is designed to simplify the process of finding and calculati
  - JWT token session is created when users logs in to protect data APIs.
  - Encryption logic is in place to protect user data. 
  
-![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/76bf5245-053a-4dd2-bdac-56a6d176b1a3)
+![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/ae5a5f8d-0985-4077-8a01-0bde5bb78f43)
+
 
 ### Sign Up Page
 All accounts created includes security features to protect user data through:
 - Hashing of passwords through PBKDF2.
 - Base64 encoding. 
   
-![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/8810db82-d7d0-4515-a24f-d04413d6caa2)
+![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/feb0a8d0-25c0-468f-8a66-6acd228f8596)
+
 
 ### Dashboard
 
