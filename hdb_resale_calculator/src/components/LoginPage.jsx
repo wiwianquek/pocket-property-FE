@@ -216,6 +216,7 @@ export default function LoginPage() {
       justify="center" // Center on mobile
       p={4} // Padding on mobile
       direction="column" // Stack vertically on mobile
+      bgImage={`url(${pocketPropertyImage})`}
     >
         <Box
           p={8}
