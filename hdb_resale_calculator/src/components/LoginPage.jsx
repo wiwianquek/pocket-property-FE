@@ -211,16 +211,12 @@ export default function LoginPage() {
   
     return (
       <Flex
-        minH="100vh"
-        w="full"
-        align="center"
-        justify="flex-end"
-        bgImage={`url(${pocketPropertyImage})`}
-        bgSize="212vh"
-        bgPosition="center"
-        position="relative"
-        pr={{ base: 4, md: 8, lg: 12 }}
-      >
+      minH="100vh"
+      align="center"
+      justify="center" // Center on mobile
+      p={4} // Padding on mobile
+      direction="column" // Stack vertically on mobile
+    >
         <Box
           p={8}
           borderRadius="md"
@@ -228,12 +224,11 @@ export default function LoginPage() {
           border="1px solid transparent"
           bg="white"
           maxW="md"
-          width="full"
+          width={["90%", "80%", "60%", "40%"]} // Responsive width
           zIndex="docked"
-          mr="20"
           _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }}
           transition="transform 0.3s ease"
-        >
+        >  
           <form onSubmit={handleSubmit}>
             <Heading as="h2" size="xl" mb="6" textAlign="center">Log In</Heading>
             <FormControl mb="4">
@@ -285,4 +280,3 @@ export default function LoginPage() {
       </Flex>
     );
 }
- 
