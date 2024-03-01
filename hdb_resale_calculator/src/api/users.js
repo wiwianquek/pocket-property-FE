@@ -1,7 +1,5 @@
-let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL; 
+let BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 BASE_URL += '/users';
-
-console.log(BASE_URL)
 
 // Add a function to get user details by username or email
 export async function getUserByUsername(username) {
