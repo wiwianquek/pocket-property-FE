@@ -75,17 +75,17 @@
 //     };
   
 //   return (
-//     <Flex
-//       minH="100vh"
-//       w="full"
-//       align="center"
-//       justify="flex-end"
-//       bgImage={`url(${pocketPropertyImage})`}
-//       bgSize="212vh"
-//       bgPosition="center"
-//       position="relative"
-//       pr={{ base: 4, md: 8, lg: 12 }}
-//     >
+    // <Flex
+    //   minH="100vh"
+    //   w="full"
+    //   align="center"
+    //   justify="flex-end"
+    //   bgImage={`url(${pocketPropertyImage})`}
+    //   bgSize="212vh"
+    //   bgPosition="center"
+    //   position="relative"
+    //   pr={{ base: 4, md: 8, lg: 12 }}
+    // >
 //       <Box
 //         p={8}
 //         borderRadius="md"
