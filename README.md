@@ -2,6 +2,8 @@
 
 Pocket Property 2.0 is designed to simplify the process of finding and calculating property-related metrics for HDB (Housing & Development Board) properties. Whether you're in the market to buy HDB or just looking to get average pricing metrics without going through the hassle of complex calculations, Pocket Property 2.0 has you covered! 
 
+Demo: https://pocket-property.onrender.com/
+
 ## Screenshot(s)
  ### Login Page
  User can now create their own personal accounts, where all data will be stored at a user-level. To better protect user data and the data APIs:
