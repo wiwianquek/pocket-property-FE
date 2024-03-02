@@ -101,8 +101,9 @@ npm run dev
 Planned future enhancements for Pocket Property include:
 
 - Interactive Map Integration: Allowing users to find properties based on location visually.
+- Improve search and loading speed. 
 - Generating detailed summaries for HDB and bank loans.
-- Mobile compatible
+- Mobile compatible.
 
 See more planning in:
 - https://trello.com/b/5Isfnkh4/pocket-property-upgraded
