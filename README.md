@@ -99,3 +99,5 @@ Planned future enhancements for Pocket Property include:
 - Generating detailed summaries for HDB and bank loans.
 - Mobile compatible
 
+See more planning in https://trello.com/b/5Isfnkh4/pocket-property-upgraded
+
