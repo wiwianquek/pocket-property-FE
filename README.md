@@ -8,9 +8,9 @@ Demo: https://pocket-property.onrender.com/
  ### Login Page
  User can now create their own personal accounts, where all data will be stored at a user-level. To better protect user data and the data APIs:
  - JWT token session is created when users logs in to protect data APIs.
- - Encryption logic is in place to protect user data. 
- 
-![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/ae5a5f8d-0985-4077-8a01-0bde5bb78f43)
+ - Encryption logic is in place to protect user data.
+   
+![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/d506c34c-e8e4-41a6-86aa-e582c6fbb02d)
 
 
 ### Sign Up Page
@@ -18,7 +18,7 @@ All accounts created includes security features to protect user data through:
 - Hashing of passwords through PBKDF2.
 - Base64 encoding. 
   
-![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/feb0a8d0-25c0-468f-8a66-6acd228f8596)
+![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/dcf36538-7c5f-4ebe-b3cd-138392ffba44)
 
 
 ### Dashboard
