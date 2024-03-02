@@ -58,6 +58,9 @@ This table provides a quick overview of the searches made in "Search Resale HDB 
 
 ![image](https://github.com/wiwianquek/pocket-property-FE/assets/136752154/94348b23-d261-49b2-831c-d09421a9465f)
 
+## Key Challenges/Takeaways
+- Formulating aggregation since there are multiple filters involved. Before mapping, I had to understand the type of data I have stored first before I could try to understand. But even after, there were a lot of debugging required, and finding out whether if my aggregation makes sense.
+- What I learnt to do is to slowly breakdown one big problem into smaller problems, solving piece by piece, which helps to speed up the debugging and allowing me to be more efficient as well. 
 
 ## Technologies Used
 
@@ -71,7 +74,7 @@ This table provides a quick overview of the searches made in "Search Resale HDB 
 - **Trello** for project management.
 
 ## Data Used
-- **HDB Resale Data from Jan 2017 to Sep 2023*: Extracted from data.gov.sg.
+- HDB Resale Data from Jan 2017 to Sep 2023*: Extracted from data.gov.sg.
 
 ## Getting Started
 
@@ -99,5 +102,7 @@ Planned future enhancements for Pocket Property include:
 - Generating detailed summaries for HDB and bank loans.
 - Mobile compatible
 
-See more planning in https://trello.com/b/5Isfnkh4/pocket-property-upgraded
+See more planning in:
+- https://trello.com/b/5Isfnkh4/pocket-property-upgraded
+- https://www.figma.com/file/yq3d084oPuu5tHCmzI6ddK/Pocket-Property?type=whiteboard&node-id=0-1&t=ywhkd8l3domj8m05-0
 
